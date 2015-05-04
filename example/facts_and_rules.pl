@@ -1,0 +1,4 @@
+:- [extractfacts].
+:- [modelfacts].
+:- [reconfacts].
+:- [modelrules].
