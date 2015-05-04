@@ -1,0 +1,285 @@
+run/
+├── collected_images.csv
+├── data
+│   ├── DRT240
+│   │   ├── DRT240_10000eV_001.img
+│   │   ├── DRT240_10000eV_002.img
+│   │   ├── DRT240_10000eV_003.img
+│   │   ├── DRT240_10000eV_004.img
+│   │   ├── DRT240_10000eV_005.img
+│   │   ├── DRT240_10000eV_006.img
+│   │   ├── DRT240_10000eV_007.img
+│   │   ├── DRT240_10000eV_008.img
+│   │   ├── DRT240_10000eV_009.img
+│   │   ├── DRT240_10000eV_010.img
+│   │   ├── DRT240_10000eV_011.img
+│   │   ├── DRT240_10000eV_012.img
+│   │   ├── DRT240_10000eV_013.img
+│   │   ├── DRT240_10000eV_014.img
+│   │   ├── DRT240_10000eV_015.img
+│   │   ├── DRT240_10000eV_016.img
+│   │   ├── DRT240_10000eV_017.img
+│   │   ├── DRT240_10000eV_018.img
+│   │   ├── DRT240_10000eV_019.img
+│   │   ├── DRT240_10000eV_020.img
+│   │   ├── DRT240_10000eV_021.img
+│   │   ├── DRT240_10000eV_022.img
+│   │   ├── DRT240_10000eV_023.img
+│   │   ├── DRT240_10000eV_024.img
+│   │   ├── DRT240_10000eV_025.img
+│   │   ├── DRT240_10000eV_026.img
+│   │   ├── DRT240_10000eV_027.img
+│   │   ├── DRT240_10000eV_028.img
+│   │   ├── DRT240_10000eV_029.img
+│   │   ├── DRT240_10000eV_030.img
+│   │   ├── DRT240_10000eV_031.img
+│   │   ├── DRT240_10000eV_032.img
+│   │   ├── DRT240_10000eV_033.img
+│   │   ├── DRT240_10000eV_034.img
+│   │   ├── DRT240_10000eV_035.img
+│   │   ├── DRT240_10000eV_036.img
+│   │   ├── DRT240_10000eV_037.img
+│   │   ├── DRT240_11000eV_001.img
+│   │   ├── DRT240_11000eV_002.img
+│   │   ├── DRT240_11000eV_003.img
+│   │   ├── DRT240_11000eV_004.img
+│   │   ├── DRT240_11000eV_005.img
+│   │   ├── DRT240_11000eV_006.img
+│   │   ├── DRT240_11000eV_007.img
+│   │   ├── DRT240_11000eV_008.img
+│   │   ├── DRT240_11000eV_009.img
+│   │   ├── DRT240_11000eV_010.img
+│   │   ├── DRT240_11000eV_011.img
+│   │   ├── DRT240_11000eV_012.img
+│   │   ├── DRT240_11000eV_013.img
+│   │   ├── DRT240_11000eV_014.img
+│   │   ├── DRT240_11000eV_015.img
+│   │   ├── DRT240_11000eV_016.img
+│   │   ├── DRT240_11000eV_017.img
+│   │   ├── DRT240_11000eV_018.img
+│   │   ├── DRT240_11000eV_019.img
+│   │   ├── DRT240_11000eV_020.img
+│   │   ├── DRT240_11000eV_021.img
+│   │   ├── DRT240_11000eV_022.img
+│   │   ├── DRT240_11000eV_023.img
+│   │   ├── DRT240_11000eV_024.img
+│   │   ├── DRT240_11000eV_025.img
+│   │   ├── DRT240_11000eV_026.img
+│   │   ├── DRT240_11000eV_027.img
+│   │   ├── DRT240_11000eV_028.img
+│   │   ├── DRT240_11000eV_029.img
+│   │   ├── DRT240_11000eV_030.img
+│   │   ├── DRT240_11000eV_031.img
+│   │   ├── DRT240_11000eV_032.img
+│   │   ├── DRT240_11000eV_033.img
+│   │   ├── DRT240_11000eV_034.img
+│   │   ├── DRT240_11000eV_035.img
+│   │   ├── DRT240_11000eV_036.img
+│   │   └── DRT240_11000eV_037.img
+│   └── DRT322
+│       ├── DRT322_10000eV_001.img
+│       ├── DRT322_10000eV_002.img
+│       ├── DRT322_10000eV_003.img
+│       ├── DRT322_10000eV_004.img
+│       ├── DRT322_10000eV_005.img
+│       ├── DRT322_10000eV_006.img
+│       ├── DRT322_10000eV_007.img
+│       ├── DRT322_10000eV_008.img
+│       ├── DRT322_10000eV_009.img
+│       ├── DRT322_10000eV_010.img
+│       ├── DRT322_10000eV_011.img
+│       ├── DRT322_10000eV_012.img
+│       ├── DRT322_10000eV_013.img
+│       ├── DRT322_10000eV_014.img
+│       ├── DRT322_10000eV_015.img
+│       ├── DRT322_10000eV_016.img
+│       ├── DRT322_10000eV_017.img
+│       ├── DRT322_10000eV_018.img
+│       ├── DRT322_10000eV_019.img
+│       ├── DRT322_10000eV_020.img
+│       ├── DRT322_10000eV_021.img
+│       ├── DRT322_10000eV_022.img
+│       ├── DRT322_10000eV_023.img
+│       ├── DRT322_10000eV_024.img
+│       ├── DRT322_10000eV_025.img
+│       ├── DRT322_10000eV_026.img
+│       ├── DRT322_10000eV_027.img
+│       ├── DRT322_10000eV_028.img
+│       ├── DRT322_10000eV_029.img
+│       ├── DRT322_10000eV_030.img
+│       ├── DRT322_11000eV_001.img
+│       ├── DRT322_11000eV_002.img
+│       ├── DRT322_11000eV_003.img
+│       ├── DRT322_11000eV_004.img
+│       ├── DRT322_11000eV_005.img
+│       ├── DRT322_11000eV_006.img
+│       ├── DRT322_11000eV_007.img
+│       ├── DRT322_11000eV_008.img
+│       ├── DRT322_11000eV_009.img
+│       ├── DRT322_11000eV_010.img
+│       ├── DRT322_11000eV_011.img
+│       ├── DRT322_11000eV_012.img
+│       ├── DRT322_11000eV_013.img
+│       ├── DRT322_11000eV_014.img
+│       ├── DRT322_11000eV_015.img
+│       ├── DRT322_11000eV_016.img
+│       ├── DRT322_11000eV_017.img
+│       ├── DRT322_11000eV_018.img
+│       ├── DRT322_11000eV_019.img
+│       ├── DRT322_11000eV_020.img
+│       ├── DRT322_11000eV_021.img
+│       ├── DRT322_11000eV_022.img
+│       ├── DRT322_11000eV_023.img
+│       ├── DRT322_11000eV_024.img
+│       ├── DRT322_11000eV_025.img
+│       ├── DRT322_11000eV_026.img
+│       ├── DRT322_11000eV_027.img
+│       ├── DRT322_11000eV_028.img
+│       ├── DRT322_11000eV_029.img
+│       └── DRT322_11000eV_030.img
+├── raw
+│   └── q55
+│       ├── DRT240
+│       │   ├── e10000
+│       │   │   ├── image_001.raw
+│       │   │   ├── image_002.raw
+│       │   │   ├── image_003.raw
+│       │   │   ├── image_004.raw
+│       │   │   ├── image_005.raw
+│       │   │   ├── image_006.raw
+│       │   │   ├── image_007.raw
+│       │   │   ├── image_008.raw
+│       │   │   ├── image_009.raw
+│       │   │   ├── image_010.raw
+│       │   │   ├── image_011.raw
+│       │   │   ├── image_012.raw
+│       │   │   ├── image_013.raw
+│       │   │   ├── image_014.raw
+│       │   │   ├── image_015.raw
+│       │   │   ├── image_016.raw
+│       │   │   ├── image_017.raw
+│       │   │   ├── image_018.raw
+│       │   │   ├── image_019.raw
+│       │   │   ├── image_020.raw
+│       │   │   ├── image_021.raw
+│       │   │   ├── image_022.raw
+│       │   │   ├── image_023.raw
+│       │   │   ├── image_024.raw
+│       │   │   ├── image_025.raw
+│       │   │   ├── image_026.raw
+│       │   │   ├── image_027.raw
+│       │   │   ├── image_028.raw
+│       │   │   ├── image_029.raw
+│       │   │   ├── image_030.raw
+│       │   │   ├── image_031.raw
+│       │   │   ├── image_032.raw
+│       │   │   ├── image_033.raw
+│       │   │   ├── image_034.raw
+│       │   │   ├── image_035.raw
+│       │   │   ├── image_036.raw
+│       │   │   └── image_037.raw
+│       │   └── e11000
+│       │       ├── image_001.raw
+│       │       ├── image_002.raw
+│       │       ├── image_003.raw
+│       │       ├── image_004.raw
+│       │       ├── image_005.raw
+│       │       ├── image_006.raw
+│       │       ├── image_007.raw
+│       │       ├── image_008.raw
+│       │       ├── image_009.raw
+│       │       ├── image_010.raw
+│       │       ├── image_011.raw
+│       │       ├── image_012.raw
+│       │       ├── image_013.raw
+│       │       ├── image_014.raw
+│       │       ├── image_015.raw
+│       │       ├── image_016.raw
+│       │       ├── image_017.raw
+│       │       ├── image_018.raw
+│       │       ├── image_019.raw
+│       │       ├── image_020.raw
+│       │       ├── image_021.raw
+│       │       ├── image_022.raw
+│       │       ├── image_023.raw
+│       │       ├── image_024.raw
+│       │       ├── image_025.raw
+│       │       ├── image_026.raw
+│       │       ├── image_027.raw
+│       │       ├── image_028.raw
+│       │       ├── image_029.raw
+│       │       ├── image_030.raw
+│       │       ├── image_031.raw
+│       │       ├── image_032.raw
+│       │       ├── image_033.raw
+│       │       ├── image_034.raw
+│       │       ├── image_035.raw
+│       │       ├── image_036.raw
+│       │       └── image_037.raw
+│       └── DRT322
+│           ├── e10000
+│           │   ├── image_001.raw
+│           │   ├── image_002.raw
+│           │   ├── image_003.raw
+│           │   ├── image_004.raw
+│           │   ├── image_005.raw
+│           │   ├── image_006.raw
+│           │   ├── image_007.raw
+│           │   ├── image_008.raw
+│           │   ├── image_009.raw
+│           │   ├── image_010.raw
+│           │   ├── image_011.raw
+│           │   ├── image_012.raw
+│           │   ├── image_013.raw
+│           │   ├── image_014.raw
+│           │   ├── image_015.raw
+│           │   ├── image_016.raw
+│           │   ├── image_017.raw
+│           │   ├── image_018.raw
+│           │   ├── image_019.raw
+│           │   ├── image_020.raw
+│           │   ├── image_021.raw
+│           │   ├── image_022.raw
+│           │   ├── image_023.raw
+│           │   ├── image_024.raw
+│           │   ├── image_025.raw
+│           │   ├── image_026.raw
+│           │   ├── image_027.raw
+│           │   ├── image_028.raw
+│           │   ├── image_029.raw
+│           │   └── image_030.raw
+│           └── e11000
+│               ├── image_001.raw
+│               ├── image_002.raw
+│               ├── image_003.raw
+│               ├── image_004.raw
+│               ├── image_005.raw
+│               ├── image_006.raw
+│               ├── image_007.raw
+│               ├── image_008.raw
+│               ├── image_009.raw
+│               ├── image_010.raw
+│               ├── image_011.raw
+│               ├── image_012.raw
+│               ├── image_013.raw
+│               ├── image_014.raw
+│               ├── image_015.raw
+│               ├── image_016.raw
+│               ├── image_017.raw
+│               ├── image_018.raw
+│               ├── image_019.raw
+│               ├── image_020.raw
+│               ├── image_021.raw
+│               ├── image_022.raw
+│               ├── image_023.raw
+│               ├── image_024.raw
+│               ├── image_025.raw
+│               ├── image_026.raw
+│               ├── image_027.raw
+│               ├── image_028.raw
+│               ├── image_029.raw
+│               └── image_030.raw
+├── rejected_samples.txt
+└── run_log.txt
+
+11 directories, 271 files
