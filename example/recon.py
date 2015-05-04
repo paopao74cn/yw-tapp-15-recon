@@ -82,6 +82,3 @@ if __name__ == '__main__':
     variable_value_facts(43, 79, 9, '11000')
     variable_value_facts(80, 109, 9, '10000')
     variable_value_facts(110, 139, 9, '11000')
-    
-    # values for corrected image frame number uri variables
-    variable_incrementing_values_facts(6, 42, 7, 1)
