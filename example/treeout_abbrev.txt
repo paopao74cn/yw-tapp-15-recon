@@ -1,0 +1,51 @@
+run/
+├── collected_images.csv
+├── data
+│   ├── DRT240
+│   │   ├── DRT240_10000eV_001.img
+│   │   ├── DRT240_10000eV_002.img
+│ . . . . . . . . . . . . . . . . .
+│
+│   │   ├── DRT240_11000eV_036.img
+│   │   └── DRT240_11000eV_037.img
+│   └── DRT322
+│       ├── DRT322_10000eV_001.img
+│       ├── DRT322_10000eV_002.img
+│ . . . . . . . . . . . . . . . . .
+│
+│       ├── DRT322_11000eV_029.img
+│       └── DRT322_11000eV_030.img
+├── raw
+│   └── q55
+│       ├── DRT240
+│       │   ├── e10000
+│       │   │   ├── image_001.raw
+│       │   │   ├── image_002.raw
+│ . . . . . . . . . . . . . . . . .
+│
+│       │   │   ├── image_036.raw
+│       │   │   └── image_037.raw
+│       │   └── e11000
+│       │       ├── image_001.raw
+│       │       ├── image_002.raw
+:
+:
+│       │       ├── image_036.raw
+│       │       └── image_037.raw
+│       └── DRT322
+│           ├── e10000
+│           │   ├── image_001.raw
+│           │   ├── image_002.raw
+│ . . . . . . . . . . . . . . . . .
+│
+│           │   ├── image_029.raw
+│           │   └── image_030.raw
+│           └── e11000
+│               ├── image_001.raw
+│               ├── image_002.raw
+│ . . . . . . . . . . . . . . . . .
+│
+│               ├── image_029.raw
+│               └── image_030.raw
+├── rejected_samples.txt
+└── run_log.txt
