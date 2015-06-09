@@ -1,0 +1,26 @@
+
+
+has_port(ProgramId, PortId) :- 
+    has_out_port(ProgramId, PortId).
+
+has_port(ProgramId, PortId) :-
+    has_in_port(ProgramId, PortId). 
+
+port_name(PortId, PortName) :-
+    port(PortId, _, PortName, _).
+
+port_name(PortId, PortName) :-
+    port_alias(PortId, PortName). 
+
+port_variable_value(ProgramName, PortName, VariableName, VariableValue) :-
+    program(ProgramId, ProgramName, _, _), 
+    has_port(ProgramId, PortId), 
+    port_name(PortId, PortName), 
+    channel(ChannelId, PortName), 
+    resource_channel(ResourceId, ChannelId), 
+    uri_variable(VariableId, VariableName, PortId), 
+    uri_variable_value(ResourceId, VariableId, VariableValue). 
+
+
+samples_used(SampleId) :-
+    port_variable_value(collect_data_set, raw_image, sample_id, SampleId).
