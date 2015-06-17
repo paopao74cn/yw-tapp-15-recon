@@ -11,7 +11,7 @@ port_name(PortId, PortName) :-
 port_name(PortId, PortName) :-
     port_alias(PortId, PortName). 
 
-program_port_resource_variable(ProgramName, PortName, ResourceId, VariableName, VariableValue) :-
+resource_metadata(ProgramName, PortName, ResourceId, VariableName, VariableValue) :-
     program(ProgramId, ProgramName, _, _), 
     has_port(ProgramId, PortId), 
     port_name(PortId, PortName), 
@@ -25,40 +25,40 @@ program_port_resource_variable(ProgramName, PortName, ResourceId, VariableName, 
 
 % Q1: What samples did the run of the script collect images from? 
 q1(SampleId) :-
-    program_port_resource_variable("collect_data_set", "raw_image", _, "sample_id", SampleId). 
+    resource_metadata("collect_data_set", "raw_image", _, "sample_id", SampleId). 
 
 % Q2: What energies were used during collection of images from sample DRT322? 
 q2(EnergyValue) :-
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
 
 % Q3: Where is the raw image corresponding to corrected image DRT322_11000ev_028.img? 
 q3(File) :-
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "energy", "11000"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "frame_number", "28"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", "11000"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "frame_number", "28"),
     resource(ResourceId, File).
 
 % Q4: Are there any raw images for which no corrected image was written?
 q4(File) :-
     resource(ResourceId, File),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "sample_id", SampleId),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "energy", Energy),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "frame_number", FrameNumber),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", SampleId),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", Energy),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "frame_number", FrameNumber),
     not corrected_image(SampleId, Energy, FrameNumber).
 
 %corrected_image(SampleId, Energy, FrameNumber) :-
 corrected_image(SampleId, Energy, FrameNumber) :-
-    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "sample_id", SampleId),    
-    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "energy", Energy),    
-    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "frame_number", FrameNumber).
+    resource_metadata("transform_images", "corrected_image", ResourceId, "sample_id", SampleId),    
+    resource_metadata("transform_images", "corrected_image", ResourceId, "energy", Energy),    
+    resource_metadata("transform_images", "corrected_image", ResourceId, "frame_number", FrameNumber).
 
 % Q5: Where is the spreadsheet that led to the corrected image DRT240_10000ev_010.img?
 % q5(File) :-
-q5(CassetteId) :-
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "sample_id", "DRT240"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "energy", "10000"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "frame_number", "10"),
-    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "cassette_id", CassetteId).
-    %program_port_resource_variable("load_screening_results", "sample_spreadsheet", ResourceId2, "cassette_id", CassetteId), 
-    %resource(ResourceId2, File).
+q5(File) :-
+    resource_metadata("collect_data_set", "raw_image", ResourceId1, "sample_id", "DRT240"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId1, "energy", "10000"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId1, "frame_number", "10"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId1, "cassette_id", CassetteId),
+    resource_metadata("load_screening_results", "sample_spreadsheet", ResourceId2, "cassette_id", CassetteId), 
+    resource(ResourceId2, File).
