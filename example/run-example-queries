@@ -15,3 +15,7 @@ echo ""
 echo "Q4 output:"
 dlv -silent -pfilter=q4 example-data.dlv example-queries.dlv
 
+echo ""
+echo "Q5 output:"
+dlv -silent -pfilter=q5 example-data.dlv example-queries.dlv
+

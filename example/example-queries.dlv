@@ -20,16 +20,6 @@ program_port_resource_variable(ProgramName, PortName, ResourceId, VariableName, 
     uri_variable(VariableId, VariableName, PortId), 
     uri_variable_value(ResourceId, VariableId, VariableValue). 
     
-program_port_variable(ProgramName, PortName, VariableName, VariableValue) :-
-    program_port_resource_variable(ProgramName, PortName, _, VariableName, VariableValue). 
-
-port_resource_variable(PortName, ResourceId, VariableName, VariableValue) :-
-    port_name(PortId, PortName), 
-    channel(ChannelId, PortName), 
-    resource_channel(ResourceId, ChannelId), 
-    uri_variable(VariableId, VariableName, PortId), 
-    uri_variable_value(ResourceId, VariableId, VariableValue). 
-
 
 % Queries:
 
@@ -44,9 +34,9 @@ q2(EnergyValue) :-
 
 % Q3: Where is the raw image corresponding to corrected image DRT322_11000ev_028.img? 
 q3(File) :-
-    port_resource_variable("raw_image", ResourceId, "sample_id", "DRT322"),
-    port_resource_variable("raw_image", ResourceId, "energy", "11000"),
-    port_resource_variable("raw_image", ResourceId, "frame_number", "28"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "energy", "11000"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "frame_number", "28"),
     resource(ResourceId, File).
 
 % Q4: Are there any raw images for which no corrected image was written?
@@ -57,18 +47,18 @@ q4(File) :-
     program_port_resource_variable("collect_data_set", "raw_image", ResourceId, "frame_number", FrameNumber),
     not corrected_image(SampleId, Energy, FrameNumber).
 
-
 %corrected_image(SampleId, Energy, FrameNumber) :-
 corrected_image(SampleId, Energy, FrameNumber) :-
-    port_name(PortId, "corrected_image"), 
-    channel(ChannelId, "corrected_image"),
-    resource_channel(ResourceId, ChannelId),
-    uri_variable(VariableId1, "sample_id", PortId),
-    uri_variable_value(ResourceId, VariableId1, SampleId),
-    uri_variable(VariableId2, "energy", PortId),
-    uri_variable_value(ResourceId, VariableId2, Energy), 
-    uri_variable(VariableId3, "frame_number", PortId),
-    uri_variable_value(ResourceId, VariableId3, FrameNumber).
+    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "sample_id", SampleId),    
+    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "energy", Energy),    
+    program_port_resource_variable("transform_images", "corrected_image", ResourceId, "frame_number", FrameNumber).
 
-
-
+% Q5: Where is the spreadsheet that led to the corrected image DRT240_10000ev_010.img?
+% q5(File) :-
+q5(CassetteId) :-
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "sample_id", "DRT240"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "energy", "10000"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "frame_number", "10"),
+    program_port_resource_variable("collect_data_set", "raw_image", ResourceId1, "cassette_id", CassetteId).
+    %program_port_resource_variable("load_screening_results", "sample_spreadsheet", ResourceId2, "cassette_id", CassetteId), 
+    %resource(ResourceId2, File).
