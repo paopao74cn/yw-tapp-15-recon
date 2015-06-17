@@ -669,7 +669,7 @@ resource_channel(135, 1).
 resource_channel(136, 1).
 resource_channel(137, 1).
 resource_channel(138, 1).
-resource_channel(139, 1).
+%resource_channel(139, 1).   % COMMENTED OUT TO SHOW THAT Q4 Works
 resource_channel(140, 22).
 resource_channel(141, 22).
 resource_channel(142, 22).

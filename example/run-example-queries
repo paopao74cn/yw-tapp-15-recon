@@ -13,5 +13,5 @@ dlv -silent -pfilter=q3 example-data.dlv example-queries.dlv
 
 echo ""
 echo "Q4 output:"
-dlv -silent -pfilter=corrected_image example-data.dlv example-queries.dlv
+dlv -silent -pfilter=q4 example-data.dlv example-queries.dlv
 
