@@ -49,6 +49,19 @@ q3(File) :-
     port_resource_variable("raw_image", ResourceId, "frame_number", "28"),
     resource(ResourceId, File).
 
-vars(VariableName, VariableValue) :-
-    port_resource_variable_value("raw_image", _, VariableName, VariableValue). 
+% Q4: Are there any raw images for which no corrected image was written?
+q4(File) :-
+    program_port_resource_variable("transform_images", "raw_image", ResourceId, "sample_id", SampleId),
+    %corrected_image(SampleId, _, _), 
+    rosource(ResourceId, File).
+
+%corrected_image(SampleId, Energy, FrameNumber) :-
+corrected_image(ChannelId, ResourceId, VariableId1) :-
+    port_name(PortId, "corrected_image"), 
+    channel(ChannelId, "corrected_image"),
+    resource_channel(ResourceId, ChannelId),
+    uri_variable(VariableId1, "sample_id", PortId),
+    uri_variable_value(ResourceId, VariableId1, SampleId).     
+
+
 

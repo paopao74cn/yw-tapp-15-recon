@@ -1,4 +1,17 @@
 #!/bin/bash
 
-dlv -silent -pfilter=q4_test example-data.dlv example-queries.dlv
+echo "Q1 output:"
+dlv -silent -pfilter=q1 example-data.dlv example-queries.dlv
+
+echo ""
+echo "Q2 output:"
+dlv -silent -pfilter=q2 example-data.dlv example-queries.dlv
+
+echo ""
+echo "Q3 output:"
+dlv -silent -pfilter=q3 example-data.dlv example-queries.dlv
+
+echo ""
+echo "Q4 output:"
+dlv -silent -pfilter=corrected_image example-data.dlv example-queries.dlv
 

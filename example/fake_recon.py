@@ -62,18 +62,13 @@ if __name__ == '__main__':
     variable_value_facts(214, 273, 3, 'DRT322')
 
     # values for raw image frame_number uri variables
-    variable_incrementing_values_facts(6, 42, 4, 1)
-    variable_incrementing_values_facts(43, 79, 4, 1)
-    variable_incrementing_values_facts(80, 109, 4, 1)
-    variable_incrementing_values_facts(110, 139, 4, 1)
     variable_incrementing_values_facts(140, 176, 4, 1)
     variable_incrementing_values_facts(177, 213, 4, 1)    
     variable_incrementing_values_facts(214, 243, 4, 1)    
     variable_incrementing_values_facts(244, 273, 4, 1)    
 
-    # values for cassette_id uri variables
+    # values for raw image cassette_id uri variables
     variable_value_facts(140, 273, 5, 'q55')
-
 
     # values for raw image energy uri variables
     variable_value_facts(140, 176, 6, '10000')
@@ -81,17 +76,22 @@ if __name__ == '__main__':
     variable_value_facts(214, 243, 6, '10000')
     variable_value_facts(244, 273, 6, '11000')
 
-    '''    
+
+
     # values for corrected image sample_id uri variables
-    variable_value_facts(6, 79, 8, 'DRT240')  
-    variable_value_facts(80, 139, 8, 'DRT322')
+    variable_value_facts(6, 79, 7, 'DRT240')  
+    variable_value_facts(80, 139, 7, 'DRT322')
     
+    # values for corrected image frame_number uri variables
+    variable_incrementing_values_facts(6, 42, 8, 1)
+    variable_incrementing_values_facts(43, 79, 8, 1)
+    variable_incrementing_values_facts(80, 109, 8, 1)
+    variable_incrementing_values_facts(110, 139, 8, 1)
+
     # values for corrected image energy uri variables
-    variable_value_facts(8, 42, 9, '10000')
+    variable_value_facts(6, 42, 9, '10000')
     variable_value_facts(43, 79, 9, '11000')
     variable_value_facts(80, 109, 9, '10000')
     variable_value_facts(110, 139, 9, '11000')
     
-    # values for corrected image frame number uri variables
-    variable_incrementing_values_facts(6, 42, 7, 1)
-    '''
+
