@@ -1,0 +1,4 @@
+#!/bin/bash
+
+dlv -silent -pfilter=q4_test example-data.dlv example-queries.dlv
+
