@@ -6,6 +6,14 @@ has_port(ProgramId, PortId) :-
 has_port(ProgramId, PortId) :-
     has_in_port(ProgramId, PortId). 
     
+program_reads_from_channel(Program, Channel) :-
+    port_connects_to_channel(Port, Channel),
+    has_in_port(Program, Port).
+
+program_writes_to_channel(Program, Channel) :-
+    port_connects_to_channel(Port, Channel),
+    has_out_port(Program, Port).
+    
 resource_metadata_value(ProgramId, ChannelId, ResourceId, VariableName, VariableValue) :-
     has_port(ProgramId, PortId),
     port_connects_to_channel(PortId, ChannelId),
@@ -165,16 +173,14 @@ q5(SpreadsheetFile) :-
     % get metadata values for corrected image ./run/data/DRT240/DRT240_10000eV_010.img
     channel(CorrectedImageChannel, "corrected_image"),
     resource(CorrectedImageResource, "./run/data/DRT240/DRT240_10000eV_010.img"),
-    port_connects_to_channel(CorrectedImagePortId, CorrectedImageChannel),
-    has_out_port(CorrectedImageSourceProgram, CorrectedImagePortId),
+    program_writes_to_channel(CorrectedImageSourceProgram, CorrectedImageChannel),
     resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "sample_id", SampleId),
     resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "energy", Energy),
     resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "frame_number", FrameNumber),
 
     % get raw image with metadata values matching that of the raw image
     channel(RawImageChannel, "raw_image"),
-    port_connects_to_channel(RawImagePortId, RawImageChannel),
-    has_out_port(RawImageSourceProgram, RawImagePortId),
+    program_writes_to_channel(RawImageSourceProgram, RawImageChannel),
     resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "sample_id", SampleId),
     resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "energy", Energy),
     resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "frame_number", FrameNumber),
@@ -184,8 +190,7 @@ q5(SpreadsheetFile) :-
 
     % get the sample spreadsheet file input upstream
     channel(SampleSpreadsheetChannel, "sample_spreadsheet"),
-    port_connects_to_channel(SampleSpreadsheetPortId, SampleSpreadsheetChannel),
-    has_in_port(SampleSpreadsheetSourceProgram, SampleSpreadsheetPortId),
+    program_reads_from_channel(SampleSpreadsheetSourceProgram, SampleSpreadsheetChannel),
     resource_metadata_value(SampleSpreadsheetSourceProgram, SampleSpreadsheetChannel, SampleSpreadsheetResource, "cassette_id", CassetteId), 
     resource(SampleSpreadsheetResource, SpreadsheetFile),
     
