@@ -103,7 +103,7 @@ pq7(UpstreamChannelName):-
     channel_immediately_upstream(Workflow, Channel, UpstreamChannel),
     channel(UpstreamChannel, UpstreamChannelName).
 
-% PQ8: What channels are immediately upstream of raw_image?
+% PQ8: What channels are upstream of raw_image?
 pq8(UpstreamChannelName):-
     program(Workflow, "simulate_data_collection", _, _),
     channel(Channel, "raw_image"),
