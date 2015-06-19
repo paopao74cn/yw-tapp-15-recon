@@ -26,7 +26,7 @@ PQ8: What channels are upstream of raw_image?
 PQ9: What URI variables are associated with data written to the corrected_images channel?
 {pq9(7,"sample_id"), pq9(8,"frame_number"), pq9(9,"energy")}
 
-PQ10: WWhat URI variables do channels raw_image and corrected_image have in common?
+PQ10: What URI variables do channels raw_image and corrected_image have in common?
 {pq10("sample_id"), pq10("energy"), pq10("frame_number")}
 
 
@@ -36,8 +36,11 @@ Q1 output:
 Q2 output:
 {q2("10000"), q2("11000")}
 
-Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-{q3("./run/raw/q55/DRT322/e11000/image_028.raw")}
+Q3A: What Uri variable values are associated with resoure ./run/data/DRT322/DRT322_11000eV_028.img?
+{q3a("sample_id","DRT322"), q3a("energy","11000"), q3a("frame_number","28")}
+
+Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+{q3b("./run/raw/q55/DRT322/e11000/image_028.raw")}
 
 Q4 output:
 {q4("./run/raw/q55/DRT322/e11000/image_030.raw")}

@@ -38,7 +38,7 @@ echo "PQ9: What URI variables are associated with data written to the corrected_
 dlv -silent -pfilter=pq9 example-data.dlv queries-w-prospective.dlv
 
 echo ""
-echo "PQ10: WWhat URI variables do channels raw_image and corrected_image have in common?"
+echo "PQ10: What URI variables do channels raw_image and corrected_image have in common?"
 dlv -silent -pfilter=pq10 example-data.dlv queries-w-prospective.dlv
 
 
@@ -53,8 +53,13 @@ echo "Q2 output:"
 dlv -silent -pfilter=q2 example-data.dlv queries-w-prospective.dlv
 
 echo ""
-echo "Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
-dlv -silent -pfilter=q3 example-data.dlv queries-w-prospective.dlv
+echo "Q3A: What Uri variable values are associated with resoure ./run/data/DRT322/DRT322_11000eV_028.img?"
+dlv -silent -pfilter=q3a example-data.dlv queries-w-prospective.dlv
+
+echo ""
+echo "Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
+dlv -silent -pfilter=q3b example-data.dlv queries-w-prospective.dlv
+
 
 echo ""
 echo "Q4 output:"

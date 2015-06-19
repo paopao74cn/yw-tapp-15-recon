@@ -73,6 +73,13 @@ common_uri_variables_for_channels(ChannelOneName, ChannelTwoName, UriVariableNam
     uri_variables_for_channel(ChannelOneName, _, UriVariableName),
     uri_variables_for_channel(ChannelTwoName, _, UriVariableName).
 
+uri_variable_value_for_resource(ResourceUri, UriVariableName, UriVariableValue) :-
+    resource(ResourceId, ResourceUri),
+    resource_channel(ResourceId, Channel),
+    port_connects_to_channel(Port, Channel),
+    uri_variable(Variable, UriVariableName, Port),
+    uri_variable_value(ResourceId, Variable, UriVariableValue).
+
 % Queries:
 
 % PQ1: What program blocks are immediately downstream of calculate_strategy?
@@ -144,8 +151,12 @@ q2(EnergyValue) :-
     resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
     resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
 
-% Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-q3(RawImageFile) :-
+% Q3A: What Uri variable values are associated with resoure ./run/data/DRT322/DRT322_11000eV_028.img?
+q3a(UriVariableName, UriVariableValue) :-
+    uri_variable_value_for_resource("./run/data/DRT322/DRT322_11000eV_028.img", UriVariableName, UriVariableValue).
+
+% Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+q3b(RawImageFile) :-
 
     channel(CorrectedImageChannel, "corrected_image"),
     resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
@@ -182,7 +193,6 @@ corrected_image(SampleId, Energy, FrameNumber) :-
     resource_metadata("transform_images", "corrected_image", ResourceId, "frame_number", FrameNumber).
 
 % Q5: Where is the spreadsheet that led to the corrected image ./run/data/DRT240/DRT240_10000eV_010.img?
-% q5(File) :-
 q5(SpreadsheetFile) :-
     
     % get metadata values for corrected image ./run/data/DRT240/DRT240_10000eV_010.img
