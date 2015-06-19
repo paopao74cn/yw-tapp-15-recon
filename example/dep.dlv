@@ -1,0 +1,78 @@
+
+port_name(P, N) :-
+    port(P, _, N, _).
+port_name(P, N) :-
+    port_alias(P, N).
+
+% Resource R1 depends on resource R2
+depends_on(R1, R2) :-
+    common_metadata_variable(R1, R2),
+    not common_metadata_values_differ(R1, R2),
+    upstream_resource(R2, R1),  % check R2 upstream of R1
+    R1 != R2.
+
+common_metadata_variable(R1, R2) :-
+    uri_resource_variable_value(R1, N, _), 
+    uri_resource_variable_value(R2, N, _).
+
+common_metadata_values_differ(R1, R2) :-
+    resource_channel(R1, C1), 
+    resource_channel(R2, C2), 
+    uri_resource_variable_value(R1, N, V1), 
+    uri_resource_variable_value(R2, N, V2), 
+    % common_uri_variables_for_channels(FirstChannel, SecondChannel, FirstResourceVariableName),
+    V1 != V2.
+
+uri_resource_variable_value(R, N, V) :-
+    uri_variable(X, N, _), 
+    uri_variable_value(R, X, V).
+
+
+% port P2 directly depends on P1
+port_dep(P2, P1) :-
+    has_in_port(B, P1),
+    has_out_port(B, P2).
+port_dep(P2, P1) :-
+    has_in_port(_, P2), 
+    has_out_port(_, P1), 
+    channel(C, _), 
+    port_connects_to_channel(P1, C), 
+    port_connects_to_channel(P2, C).
+
+% transitive closure
+port_dep_tc(P2, P1) :- port_dep(P2, P1).
+port_dep_tc(P2, P1) :- port_dep_tc(P2, P), port_dep_tc(P, P1).
+
+port_dep_test(B2, B1) :-
+    port_dep_tc(P2, P1), 
+    port_name(P2, B2), 
+    port_name(P1, B1).
+
+% R1 is upstream of R2 if R1 is in input and R2 is in output of a block
+upstream_resource(R1, R2) :-
+    resource_channel(R1, C1), 
+    port_connects_to_channel(P1, C1), 
+    resource_channel(R2, C2), 
+    port_connects_to_channel(P2, C2), 
+    port_dep_tc(P2, P1).
+
+
+%% test(N1, N2) :-
+%%     port_dep(P1, P2), 
+%%     port(P1, _, N1, _), 
+%%     port(P2, _, N2, _).
+
+upstream_test(B1, B2) :-
+    upstream_resource(R1, R2), 
+    resource_channel(R1, C1), 
+    resource_channel(R2, C2), 
+    channel(C1, B1), 
+    channel(C2, B2).
+
+
+q3(RawImageFile) :-
+   resource(CorrectedImageId, "./run/data/DRT322/DRT322_11000eV_028.img"),
+   channel(RawImageChannel, "raw_image"),
+   resource_channel(RawImageId, RawImageChannel),
+   depends_on(CorrectedImageId, RawImageId),
+   resource(RawImageId, RawImageFile).    
