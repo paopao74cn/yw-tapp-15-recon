@@ -1,0 +1,234 @@
+
+% Helper relations:
+
+has_port(ProgramId, PortId) :- 
+    has_out_port(ProgramId, PortId).
+has_port(ProgramId, PortId) :-
+    has_in_port(ProgramId, PortId). 
+    
+program_reads_from_channel(Program, Channel) :-
+    port_connects_to_channel(Port, Channel),
+    has_in_port(Program, Port).
+
+program_writes_to_channel(Program, Channel) :-
+    port_connects_to_channel(Port, Channel),
+    has_out_port(Program, Port).
+    
+resource_metadata_value(ProgramId, ChannelId, ResourceId, VariableName, VariableValue) :-
+    has_port(ProgramId, PortId),
+    port_connects_to_channel(PortId, ChannelId),
+    resource_channel(ResourceId, ChannelId), 
+    uri_variable(VariableId, VariableName, PortId), 
+    uri_variable_value(ResourceId, VariableId, VariableValue).
+
+resource_metadata(ProgramName, PortName, ResourceId, VariableName, VariableValue) :-
+    program(ProgramId, ProgramName, _, _), 
+    channel(ChannelId, PortName), 
+    resource_metadata_value(ProgramId, ChannelId, ResourceId, VariableName, VariableValue).    
+
+program_immediately_downstream(Progam, DownstreamProgram) :-
+    has_out_port(Progam, UpstreamPort),
+    port_connects_to_channel(UpstreamPort, Channel),
+    port_connects_to_channel(DownstreamPort, Channel),
+    has_in_port(DownstreamProgram, DownstreamPort).
+    
+program_downstream(Program, DownstreamProgram) :-
+    program_immediately_downstream(Program, DownstreamProgram).
+program_downstream(Program, DownstreamProgram) :-
+    program_immediately_downstream(Program, IntermediateProgram),
+    program_downstream(IntermediateProgram, DownstreamProgram).
+
+program_immediately_upstream(Program, UpstreamProgram) :-
+    program_immediately_downstream(UpstreamProgram, Program).
+
+program_upstream(Program, UpstreamProgram) :-
+    program_downstream(UpstreamProgram, Program).
+
+channel_immediately_downstream(Workflow, Channel, DownstreamChannel) :-
+    workflow(Workflow),
+    port_connects_to_channel(Port, Channel),
+    has_in_port(DownstreamProgram, Port),
+    has_sub_program(Workflow, DownstreamProgram),
+    has_out_port(DownstreamProgram, DownstreamPort),
+    port_connects_to_channel(DownstreamPort, DownstreamChannel).
+    
+channel_downstream(Workflow, Channel, DownstreamChannel) :-
+    channel_immediately_downstream(Workflow, Channel, DownstreamChannel).
+channel_downstream(Workflow, Channel, DownstreamChannel):-
+    channel_immediately_downstream(Workflow, Channel, IntermediateChannel),
+    channel_downstream(Workflow, IntermediateChannel, DownstreamChannel).
+    
+channel_immediately_upstream(Workflow, Channel, UpstreamChannel) :-
+    channel_immediately_downstream(Workflow, UpstreamChannel, Channel).
+
+channel_upstream(Workflow, Channel, UpstreamChannel) :-
+    channel_downstream(Workflow, UpstreamChannel, Channel).
+
+uri_variables_for_channel(Channel, UriVariable, UriVariableName) :-
+    port_connects_to_channel(Port, Channel),
+    uri_variable(UriVariable, UriVariableName, Port).
+    
+common_uri_variables_for_channels(ChannelOne, ChannelTwo, UriVariableName) :-
+    uri_variables_for_channel(ChannelOne, _, UriVariableName),
+    uri_variables_for_channel(ChannelTwo, _, UriVariableName).
+
+uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue) :-
+    resource_channel(Resource, Channel),
+    port_connects_to_channel(Port, Channel),
+    uri_variable(Variable, UriVariableName, Port),
+    uri_variable_value(Resource, Variable, UriVariableValue).
+
+common_metadata_variables_differ(FirstResource, SecondResource) :-
+    resource_channel(FirstResource, FirstChannel),
+    resource_channel(SecondResoure, SecondChannel),
+    uri_variable_value_for_resource(FirstResource, FirstResourceVariableName, FirstResourceVariableValue),
+    uri_variable_value_for_resource(SecondResource, SecondResourceVariableName, SecondResourceVariableValue),
+    common_uri_variables_for_channels(FirstChannel, SecondChannel, FirstResourceVariableName),
+    SecondResourceVariableName = FirstResourceVariableName,
+    SecondResourceVariableValue != FirstResourceVariableValue.
+
+% Queries:
+
+% PQ1: What program blocks are immediately downstream of calculate_strategy?
+pq1(DownstreamProgramName):-
+    program(Program, "calculate_strategy", _, _),
+    program_immediately_downstream(Program, DownstreamProgram),
+    program(DownstreamProgram, DownstreamProgramName, _, _).
+
+% PQ2: What program blocks are anywhere downstream of calculate_strategy?
+pq2(DownstreamProgramName):-
+    program(Program, "calculate_strategy", _, _),
+    program_downstream(Program, DownstreamProgram),
+    program(DownstreamProgram, DownstreamProgramName, _, _).
+ 
+% PQ3: What program blocks are immediately upstream of transform_image?
+pq3(UpstreamProgramName):-
+    program(Program, "transform_images", _, _),
+    program_immediately_upstream(Program, UpstreamProgram),
+    program(UpstreamProgram, UpstreamProgramName, _, _).
+ 
+% PQ4: What program blocks are upstream of transform_image?
+pq4(UpstreamProgramName):-
+    program(Program, "transform_images", _, _),
+    program_upstream(Program, UpstreamProgram),
+    program(UpstreamProgram, UpstreamProgramName, _, _).
+
+% PQ5: What channels are immediately downstream of raw_image?
+pq5(DownstreamChannelName):-
+    program(Workflow, "simulate_data_collection", _, _),
+    channel(Channel, "raw_image"),
+    channel_immediately_downstream(Workflow, Channel, DownstreamChannel),
+    channel(DownstreamChannel, DownstreamChannelName).
+
+% PQ6: What channels are downstream of accepted_sample?
+pq6(DownstreamChannelName):-
+    program(Workflow, "simulate_data_collection", _, _),
+    channel(Channel, "accepted_sample"),
+    channel_downstream(Workflow, Channel, DownstreamChannel),
+    channel(DownstreamChannel, DownstreamChannelName).
+
+% PQ7: What channels are immediately upstream of corrected_image?
+pq7(UpstreamChannelName):-
+    program(Workflow, "simulate_data_collection", _, _),
+    channel(Channel, "corrected_image"),
+    channel_immediately_upstream(Workflow, Channel, UpstreamChannel),
+    channel(UpstreamChannel, UpstreamChannelName).
+
+% PQ8: What channels are upstream of raw_image?
+pq8(UpstreamChannelName):-
+    program(Workflow, "simulate_data_collection", _, _),
+    channel(Channel, "raw_image"),
+    channel_upstream(Workflow, Channel, UpstreamChannel),
+    channel(UpstreamChannel, UpstreamChannelName).
+
+%PQ9: What URI variables are associated with data written to the corrected_image channel?
+pq9(UriVariable, UriVariableName) :-
+    channel(Channel, "corrected_image"),
+    uri_variables_for_channel(Channel,  UriVariable, UriVariableName).
+    
+%PQ10: What URI variables do channels raw_image and corrected_image have in common?
+pq10(UriVariableName) :-
+    channel(RawImageChannel, "raw_image"),
+    channel(CorrectedImageChannel, "corrected_image"),
+    common_uri_variables_for_channels(RawImageChannel, CorrectedImageChannel, UriVariableName).
+
+
+% Q0: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?
+q0(UriVariableName, UriVariableValue) :-
+    resource(Resource, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue).
+
+% Q1: What samples did the run of the script collect images from? 
+q1(SampleId) :-
+    resource_metadata("collect_data_set", "raw_image", _, "sample_id", SampleId). 
+
+% Q2: What energies were used during collection of images from sample DRT322? 
+q2(EnergyValue) :-
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
+
+% Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+q3(RawImageFile) :-
+
+    % look up resource ID of output corrected image file ./run/data/DRT322/DRT322_11000eV_028.img
+    resource(CorrectedImageId, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    
+    % get resource ID of the raw image with metadata variable values matching that of the corrected image
+    channel(RawImageChannel, "raw_image"),
+    resource_channel(RawImageId, RawImageChannel),
+    not common_metadata_variables_differ(CorrectedImageId, RawImageId),
+    
+    % get the path to the matching raw image file
+    resource(RawImageId, RawImageFile),
+    
+    % verify that raw images are produced upstream of corrected images
+    program(Workflow, "simulate_data_collection", _, _),
+    resource_channel(CorrectedImageId, CorrectedImageChannel),
+    channel_upstream(Workflow, CorrectedImageChannel, RawImageChannel).
+
+% Q4: Are there any raw images for which no corrected image was written?
+q4(File) :-
+    resource(ResourceId, File),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", SampleId),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", Energy),
+    resource_metadata("collect_data_set", "raw_image", ResourceId, "frame_number", FrameNumber),
+    not corrected_image(SampleId, Energy, FrameNumber).
+
+%corrected_image(SampleId, Energy, FrameNumber) :-
+corrected_image(SampleId, Energy, FrameNumber) :-
+    resource_metadata("transform_images", "corrected_image", ResourceId, "sample_id", SampleId),    
+    resource_metadata("transform_images", "corrected_image", ResourceId, "energy", Energy),    
+    resource_metadata("transform_images", "corrected_image", ResourceId, "frame_number", FrameNumber).
+
+% Q5: Where is the spreadsheet that led to the corrected image ./run/data/DRT240/DRT240_10000eV_010.img?
+q5(SpreadsheetFile) :-
+    
+    % get metadata values for corrected image ./run/data/DRT240/DRT240_10000eV_010.img
+    channel(CorrectedImageChannel, "corrected_image"),
+    resource(CorrectedImageResource, "./run/data/DRT240/DRT240_10000eV_010.img"),
+    program_writes_to_channel(CorrectedImageSourceProgram, CorrectedImageChannel),
+    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "sample_id", SampleId),
+    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "energy", Energy),
+    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "frame_number", FrameNumber),
+
+    % get raw image with metadata values matching that of the raw image
+    channel(RawImageChannel, "raw_image"),
+    program_writes_to_channel(RawImageSourceProgram, RawImageChannel),
+    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "sample_id", SampleId),
+    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "energy", Energy),
+    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "frame_number", FrameNumber),
+
+    % get the value of cassette_id for the the raw image
+    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "cassette_id", CassetteId),
+
+    % get the sample spreadsheet file input upstream
+    channel(SampleSpreadsheetChannel, "sample_spreadsheet"),
+    program_reads_from_channel(SampleSpreadsheetSourceProgram, SampleSpreadsheetChannel),
+    resource_metadata_value(SampleSpreadsheetSourceProgram, SampleSpreadsheetChannel, SampleSpreadsheetResource, "cassette_id", CassetteId), 
+    resource(SampleSpreadsheetResource, SpreadsheetFile),
+    
+    % ensure that the corrected and raw images are really downstream of the sample spreadsheet
+    program(Workflow, "simulate_data_collection", _, _),
+    channel_upstream(Workflow, CorrectedImageChannelmageChannel, SampleSpreadsheetChannel),
+    channel_upstream(Workflow, RawImageChannel, SampleSpreadsheetChannel).
+    
