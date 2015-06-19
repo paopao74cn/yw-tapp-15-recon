@@ -169,11 +169,22 @@ q2(EnergyValue) :-
 
 % Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
 q3(RawImageFile) :-
-    resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
+
+    % look up resource ID of output corrected image file ./run/data/DRT322/DRT322_11000eV_028.img
+    resource(CorrectedImageId, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    
+    % get resource ID of the raw image with metadata variable values matching that of the corrected image
     channel(RawImageChannel, "raw_image"),
-    resource_channel(RawImageResource, RawImageChannel),
-    not common_metadata_variables_differ(CorrectedImageResource, RawImageResource),
-    resource(RawImageResource, RawImageFile).
+    resource_channel(RawImageId, RawImageChannel),
+    not common_metadata_variables_differ(CorrectedImageId, RawImageId),
+    
+    % get the path to the matching raw image file
+    resource(RawImageId, RawImageFile),
+    
+    % verify that raw images are produced upstream of corrected images
+    program(Workflow, "simulate_data_collection", _, _),
+    resource_channel(CorrectedImageId, CorrectedImageChannel),
+    channel_upstream(Workflow, CorrectedImageChannel, RawImageChannel).
 
 % Q4: Are there any raw images for which no corrected image was written?
 q4(File) :-
