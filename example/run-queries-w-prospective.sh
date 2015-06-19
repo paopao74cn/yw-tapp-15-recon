@@ -34,6 +34,15 @@ echo "PQ8: What channels are upstream of raw_image?"
 dlv -silent -pfilter=pq8 example-data.dlv queries-w-prospective.dlv
 
 echo ""
+echo "PQ9: What URI variables are associated with data written to the corrected_images channel?"
+dlv -silent -pfilter=pq9 example-data.dlv queries-w-prospective.dlv
+
+echo ""
+echo "PQ10: WWhat URI variables do channels raw_image and corrected_image have in common?"
+dlv -silent -pfilter=pq10 example-data.dlv queries-w-prospective.dlv
+
+
+echo ""
 
 echo ""
 echo "Q1 output:"

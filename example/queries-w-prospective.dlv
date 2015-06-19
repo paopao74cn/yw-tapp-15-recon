@@ -64,6 +64,17 @@ channel_immediately_upstream(Workflow, Channel, UpstreamChannel) :-
 channel_upstream(Workflow, Channel, UpstreamChannel) :-
     channel_downstream(Workflow, UpstreamChannel, Channel).
 
+uri_variables_for_channel(ProgramName, ChannelName, UriVariable, UriVariableName) :-
+    program(Program, ProgramName, _, _),
+    has_port(Program, Port),
+    channel(Channel, ChannelName),
+    port_connects_to_channel(Port, Channel),
+    uri_variable(UriVariable, UriVariableName, Port).
+    
+common_uri_variables_for_channels(ProgramOneName, ChannelOneName, ProgramTwoName, ChannelTwoName, UriVariableName) :-
+    uri_variables_for_channel(ProgramOneName, ChannelOneName, _, UriVariableName),
+    uri_variables_for_channel(ProgramTwoName, ChannelTwoName, _, UriVariableName).
+
 % Queries:
 
 % PQ1: What program blocks are immediately downstream of calculate_strategy?
@@ -118,8 +129,14 @@ pq8(UpstreamChannelName):-
     channel_upstream(Workflow, Channel, UpstreamChannel),
     channel(UpstreamChannel, UpstreamChannelName).
 
-
-
+%PQ9: What URI variables are associated with data written to the corrected_image channel?
+pq9(UriVariable, UriVariableName) :-
+    uri_variables_for_channel("transform_images", "corrected_image",  UriVariable, UriVariableName).
+    
+%PQ10: What URI variables do channels raw_image and corrected_image have in common?
+pq10(UriVariableName) :-
+    common_uri_variables_for_channels("collect_data_set", "raw_image", "transform_images", "corrected_image", UriVariableName).
+    
 % Q1: What samples did the run of the script collect images from? 
 q1(SampleId) :-
     resource_metadata("collect_data_set", "raw_image", _, "sample_id", SampleId). 
@@ -198,3 +215,4 @@ q5(SpreadsheetFile) :-
     program(Workflow, "simulate_data_collection", _, _),
     channel_upstream(Workflow, CorrectedImageChannelmageChannel, SampleSpreadsheetChannel),
     channel_upstream(Workflow, RawImageChannel, SampleSpreadsheetChannel).
+    
