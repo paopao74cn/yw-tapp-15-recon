@@ -1,0 +1,47 @@
+[H[2J
+PQ1:  What program blocks are immediately downstream of calculate_strategy?
+{pq1("log_rejected_sample"), pq1("collect_data_set")}
+
+PQ2:  What program blocks are anywhere downstream of calculate_strategy?
+{pq2("log_rejected_sample"), pq2("collect_data_set"), pq2("transform_images"), pq2("log_average_image_intensity")}
+
+PQ3:  What program blocks are immediately upstream of transform_image?
+{pq3("collect_data_set")}
+
+PQ4:  What program blocks are anywhere upstream of transform_image?
+{pq4("load_screening_results"), pq4("calculate_strategy"), pq4("collect_data_set")}
+
+PQ5:  What channels are immediately downstream of raw_image?
+{pq5("corrected_image"), pq5("corrected_image_path"), pq5("total_intensity"), pq5("pixel_count")}
+
+PQ6:  What channels are downstream of accepted_sample?
+{pq6("corrected_image"), pq6("collection_log"), pq6("sample_id"), pq6("energy"), pq6("frame_number"), pq6("corrected_image_path"), pq6("total_intensity"), pq6("pixel_count"), pq6("raw_image")}
+
+PQ7:  What channels are immediately upstream of corrected_image?
+{pq7("calibration_image"), pq7("sample_id"), pq7("energy"), pq7("frame_number"), pq7("raw_image")}
+
+PQ8: What channels are upstream of raw_image?
+{pq8("cassette_id"), pq8("sample_score_cutoff"), pq8("sample_spreadsheet"), pq8("sample_name"), pq8("sample_quality"), pq8("accepted_sample"), pq8("num_images"), pq8("energies")}
+
+PQ9: What URI variables are associated with data written to the corrected_images channel?
+{pq9(7,"sample_id"), pq9(8,"frame_number"), pq9(9,"energy")}
+
+PQ10: WWhat URI variables do channels raw_image and corrected_image have in common?
+{pq10("sample_id"), pq10("energy"), pq10("frame_number")}
+
+
+Q1 output:
+{q1("DRT240"), q1("DRT322")}
+
+Q2 output:
+{q2("10000"), q2("11000")}
+
+Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+{q3("./run/raw/q55/DRT322/e11000/image_028.raw")}
+
+Q4 output:
+{q4("./run/raw/q55/DRT322/e11000/image_030.raw")}
+
+Q5: Where is the spreadsheet that led to the corrected image ./run/data/DRT240/DRT240_10000eV_010.img?
+{q5("./cassette_q55_spreadsheet.csv")}
+
