@@ -45,6 +45,10 @@ dlv -silent -pfilter=pq10 example-data.dlv queries-w-prospective.dlv
 echo ""
 
 echo ""
+echo "Q0: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?"
+dlv -silent -pfilter=q0 example-data.dlv queries-w-prospective.dlv
+
+echo ""
 echo "Q1 output:"
 dlv -silent -pfilter=q1 example-data.dlv queries-w-prospective.dlv
 
@@ -53,12 +57,8 @@ echo "Q2 output:"
 dlv -silent -pfilter=q2 example-data.dlv queries-w-prospective.dlv
 
 echo ""
-echo "Q3A: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?"
-dlv -silent -pfilter=q3a example-data.dlv queries-w-prospective.dlv
-
-echo ""
-echo "Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
-dlv -silent -pfilter=q3b example-data.dlv queries-w-prospective.dlv
+echo "Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
+dlv -silent -pfilter=q3 example-data.dlv queries-w-prospective.dlv
 
 echo ""
 echo "Q4 output:"

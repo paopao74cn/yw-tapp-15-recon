@@ -151,7 +151,13 @@ pq10(UriVariableName) :-
     channel(RawImageChannel, "raw_image"),
     channel(CorrectedImageChannel, "corrected_image"),
     common_uri_variables_for_channels(RawImageChannel, CorrectedImageChannel, UriVariableName).
-    
+
+
+% Q0: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?
+q0(UriVariableName, UriVariableValue) :-
+    resource(Resource, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue).
+
 % Q1: What samples did the run of the script collect images from? 
 q1(SampleId) :-
     resource_metadata("collect_data_set", "raw_image", _, "sample_id", SampleId). 
@@ -161,13 +167,8 @@ q2(EnergyValue) :-
     resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
     resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
 
-% Q3A: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?
-q3a(UriVariableName, UriVariableValue) :-
-    resource(Resource, "./run/data/DRT322/DRT322_11000eV_028.img"),
-    uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue).
-
-% Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-q3b(RawImageFile) :-
+% Q3: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+q3(RawImageFile) :-
     resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
     channel(RawImageChannel, "raw_image"),
     resource_channel(RawImageResource, RawImageChannel),
