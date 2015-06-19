@@ -73,12 +73,11 @@ common_uri_variables_for_channels(ChannelOneName, ChannelTwoName, UriVariableNam
     uri_variables_for_channel(ChannelOneName, _, UriVariableName),
     uri_variables_for_channel(ChannelTwoName, _, UriVariableName).
 
-uri_variable_value_for_resource(ResourceUri, UriVariableName, UriVariableValue) :-
-    resource(ResourceId, ResourceUri),
-    resource_channel(ResourceId, Channel),
+uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue) :-
+    resource_channel(Resource, Channel),
     port_connects_to_channel(Port, Channel),
     uri_variable(Variable, UriVariableName, Port),
-    uri_variable_value(ResourceId, Variable, UriVariableValue).
+    uri_variable_value(Resource, Variable, UriVariableValue).
 
 % Queries:
 
@@ -151,12 +150,28 @@ q2(EnergyValue) :-
     resource_metadata("collect_data_set", "raw_image", ResourceId, "sample_id", "DRT322"),
     resource_metadata("collect_data_set", "raw_image", ResourceId, "energy", EnergyValue).
 
-% Q3A: What Uri variable values are associated with resoure ./run/data/DRT322/DRT322_11000eV_028.img?
+% Q3A: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?
 q3a(UriVariableName, UriVariableValue) :-
-    uri_variable_value_for_resource("./run/data/DRT322/DRT322_11000eV_028.img", UriVariableName, UriVariableValue).
+    resource(Resource, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue).
 
 % Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-q3b(RawImageFile) :-
+q3b_new(RawImageFile) :-
+    resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
+    channel(RawImageChannel, "raw_image"),
+    resource_channel(RawImageResource, RawImageChannel),
+    not common_metadata_variables_differ(CorrectedImageResource, RawImageResource),
+    resource(RawImageResource, RawImageFile).
+
+common_metadata_variables_differ(FirstResource, SecondResource) :-
+    uri_variable_value_for_resource(FirstResource, FirstResourceVariableName, FirstResourceVariableValue),
+    uri_variable_value_for_resource(SecondResource, SecondResourceVariableName, SecondResourceVariableValue),
+    common_uri_variables_for_channels("raw_image", "corrected_image", FirstResourceVariableName),
+    SecondResourceVariableName = FirstResourceVariableName,
+    SecondResourceVariableValue != FirstResourceVariableValue.
+
+% Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+q3b_old(RawImageFile) :-
 
     channel(CorrectedImageChannel, "corrected_image"),
     resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),

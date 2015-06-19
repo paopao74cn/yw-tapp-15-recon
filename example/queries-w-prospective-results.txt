@@ -36,11 +36,14 @@ Q1 output:
 Q2 output:
 {q2("10000"), q2("11000")}
 
-Q3A: What Uri variable values are associated with resoure ./run/data/DRT322/DRT322_11000eV_028.img?
+Q3A: What Uri variable values are associated with resource ./run/data/DRT322/DRT322_11000eV_028.img?
 {q3a("sample_id","DRT322"), q3a("energy","11000"), q3a("frame_number","28")}
 
 Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-{q3b("./run/raw/q55/DRT322/e11000/image_028.raw")}
+{q3b_new("./run/raw/q55/DRT322/e11000/image_028.raw")}
+
+Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
+{q3b_old("./run/raw/q55/DRT322/e11000/image_028.raw")}
 
 Q4 output:
 {q4("./run/raw/q55/DRT322/e11000/image_030.raw")}
