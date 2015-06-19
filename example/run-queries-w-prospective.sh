@@ -58,11 +58,7 @@ dlv -silent -pfilter=q3a example-data.dlv queries-w-prospective.dlv
 
 echo ""
 echo "Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
-dlv -silent -pfilter=q3b_new example-data.dlv queries-w-prospective.dlv
-
-echo ""
-echo "Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?"
-dlv -silent -pfilter=q3b_old example-data.dlv queries-w-prospective.dlv
+dlv -silent -pfilter=q3b example-data.dlv queries-w-prospective.dlv
 
 echo ""
 echo "Q4 output:"

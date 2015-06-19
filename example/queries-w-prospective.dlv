@@ -64,20 +64,28 @@ channel_immediately_upstream(Workflow, Channel, UpstreamChannel) :-
 channel_upstream(Workflow, Channel, UpstreamChannel) :-
     channel_downstream(Workflow, UpstreamChannel, Channel).
 
-uri_variables_for_channel(ChannelName, UriVariable, UriVariableName) :-
-    channel(Channel, ChannelName),
+uri_variables_for_channel(Channel, UriVariable, UriVariableName) :-
     port_connects_to_channel(Port, Channel),
     uri_variable(UriVariable, UriVariableName, Port).
     
-common_uri_variables_for_channels(ChannelOneName, ChannelTwoName, UriVariableName) :-
-    uri_variables_for_channel(ChannelOneName, _, UriVariableName),
-    uri_variables_for_channel(ChannelTwoName, _, UriVariableName).
+common_uri_variables_for_channels(ChannelOne, ChannelTwo, UriVariableName) :-
+    uri_variables_for_channel(ChannelOne, _, UriVariableName),
+    uri_variables_for_channel(ChannelTwo, _, UriVariableName).
 
 uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue) :-
     resource_channel(Resource, Channel),
     port_connects_to_channel(Port, Channel),
     uri_variable(Variable, UriVariableName, Port),
     uri_variable_value(Resource, Variable, UriVariableValue).
+
+common_metadata_variables_differ(FirstResource, SecondResource) :-
+    resource_channel(FirstResource, FirstChannel),
+    resource_channel(SecondResoure, SecondChannel),
+    uri_variable_value_for_resource(FirstResource, FirstResourceVariableName, FirstResourceVariableValue),
+    uri_variable_value_for_resource(SecondResource, SecondResourceVariableName, SecondResourceVariableValue),
+    common_uri_variables_for_channels(FirstChannel, SecondChannel, FirstResourceVariableName),
+    SecondResourceVariableName = FirstResourceVariableName,
+    SecondResourceVariableValue != FirstResourceVariableValue.
 
 % Queries:
 
@@ -135,11 +143,14 @@ pq8(UpstreamChannelName):-
 
 %PQ9: What URI variables are associated with data written to the corrected_image channel?
 pq9(UriVariable, UriVariableName) :-
-    uri_variables_for_channel("corrected_image",  UriVariable, UriVariableName).
+    channel(Channel, "corrected_image"),
+    uri_variables_for_channel(Channel,  UriVariable, UriVariableName).
     
 %PQ10: What URI variables do channels raw_image and corrected_image have in common?
 pq10(UriVariableName) :-
-    common_uri_variables_for_channels("raw_image", "corrected_image", UriVariableName).
+    channel(RawImageChannel, "raw_image"),
+    channel(CorrectedImageChannel, "corrected_image"),
+    common_uri_variables_for_channels(RawImageChannel, CorrectedImageChannel, UriVariableName).
     
 % Q1: What samples did the run of the script collect images from? 
 q1(SampleId) :-
@@ -156,42 +167,12 @@ q3a(UriVariableName, UriVariableValue) :-
     uri_variable_value_for_resource(Resource, UriVariableName, UriVariableValue).
 
 % Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-q3b_new(RawImageFile) :-
+q3b(RawImageFile) :-
     resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
     channel(RawImageChannel, "raw_image"),
     resource_channel(RawImageResource, RawImageChannel),
     not common_metadata_variables_differ(CorrectedImageResource, RawImageResource),
     resource(RawImageResource, RawImageFile).
-
-common_metadata_variables_differ(FirstResource, SecondResource) :-
-    uri_variable_value_for_resource(FirstResource, FirstResourceVariableName, FirstResourceVariableValue),
-    uri_variable_value_for_resource(SecondResource, SecondResourceVariableName, SecondResourceVariableValue),
-    common_uri_variables_for_channels("raw_image", "corrected_image", FirstResourceVariableName),
-    SecondResourceVariableName = FirstResourceVariableName,
-    SecondResourceVariableValue != FirstResourceVariableValue.
-
-% Q3B: Where is the raw image from which corrected image ./run/data/DRT322/DRT322_11000eV_028.img is derived?
-q3b_old(RawImageFile) :-
-
-    channel(CorrectedImageChannel, "corrected_image"),
-    resource(CorrectedImageResource, "./run/data/DRT322/DRT322_11000eV_028.img"),
-    channel(RawImageChannel, "raw_image"),
-    resource(RawImageResource, RawImageFile),
-    
-    port_connects_to_channel(CorrectedImagePortId, CorrectedImageChannel),
-    has_out_port(CorrectedImageSourceProgram, CorrectedImagePortId),
-    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "sample_id", SampleId),
-    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "energy", Energy),
-    resource_metadata_value(CorrectedImageSourceProgram, CorrectedImageChannel, CorrectedImageResource, "frame_number", FrameNumber),
-
-    port_connects_to_channel(RawImagePort, RawImageChannel),
-    has_out_port(RawImageSourceProgram, RawImagePort),
-    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "sample_id", SampleId),
-    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "energy", Energy),
-    resource_metadata_value(RawImageSourceProgram, RawImageChannel, RawImageResource, "frame_number", FrameNumber),
-
-    program(Workflow, "simulate_data_collection", _, _),
-    channel_upstream(Workflow, CorrectedImageChannel, RawImageChannel).
 
 % Q4: Are there any raw images for which no corrected image was written?
 q4(File) :-

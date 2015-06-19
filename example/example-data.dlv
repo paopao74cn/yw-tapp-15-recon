@@ -206,7 +206,7 @@ port_connects_to_channel(21, 6).
 port_connects_to_channel(1, 7).
 port_connects_to_channel(24, 7).
 port_connects_to_channel(1, 8).
-pport_connects_to_channel(41, 8).
+port_connects_to_channel(41, 8).
 port_connects_to_channel(3, 9).
 port_connects_to_channel(11, 9).
 port_connects_to_channel(2, 10).
