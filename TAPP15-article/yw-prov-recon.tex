@@ -186,7 +186,7 @@ workflows continue to be implemented using scripting languages and
 executed outside of workflow management systems. This is due in part
 to the convenience and familiarity of scripting languages (such as
 Perl, Python, \R, and \MATLAB), and to the high productivity many
-scientists experience when using these languages. The \YW\ toolkit
+scientists experience when using these languages. The \YW\ (\yw) toolkit
 \cite{yw-website,mcphillips2015ywIJDC} aims to provide
 such users of scripting languages with many of the benefits of
 scientific workflow automation. Instead of requiring users to migrate
@@ -284,7 +284,8 @@ common practice, and yields important runtime provenance without any
 runtime overhead. The key idea is to let scientists link their
 conceptual-level data elements via \yw-annotations to the
 ``provenance-friendly'' data organization they already apply in
-practice. This is achieved using a new \emph{URI template} annotation
+practice. This is achieved using a new \emph{URI \footnote{Uniform Resource
+    Identifier} template} annotation
 that enables script authors to declare how inputs and outputs are
 named and organized. After script execution, \yw\ can then reconstruct
 runtime provenance by matching these URI templates with the actual
@@ -379,7 +380,8 @@ ports, and channels:
   represents a computational step in the script that receives input
   data and produces (intermediate or final) output data. A program is
   designated in a script by bracketing the relevant code between a
-  pair of \ywa{@BEGIN} and \ywa{@END} comments. Program blocks are
+  pair of \ywa{@BEGIN} and \ywa{@END} comments. These paired
+  delimiters allow program block declarations to be nested. Program blocks are
   usually visualized as boxes. 
 \item A \emph{port} represents a way in which data flows into or out
   of a program or workflow. Ports are identified by \ywa{@PARAM},
@@ -408,8 +410,7 @@ reconstructed and queried after script execution.
 % \paragraph{URI Templates.}
 New retrospective \yw\ capabilities are enabled when the script author
 qualifies \ywa{@IN} and \ywa{@OUT} annotations that refer to external
-data resources using a \emph{URI \footnote{Uniform Resource
-    Identifier} template} that declares the path to the resource via
+data resources using a \emph{URI template} that declares the path to the resource via
 an annotation of the form
 \ywa{@URI}\,\textvisiblespace\,\ywa{\emph{template}}.  If the name of
 a resource does not vary between runs of the script, this template is
