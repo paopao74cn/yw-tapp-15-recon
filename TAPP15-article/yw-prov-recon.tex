@@ -681,14 +681,19 @@ information. On the other hand, it is much less well known that an
 annotation-based approach such as \YW\ can be used to obtain
 prospective provenance and---as illustrated in this
 paper---retrospective provenance as well, without the use of a runtime
-provenance recorder.  We have implemented and continue to improve the
+provenance recorder.  
+
+We have implemented and continue to improve the
 \yw\ toolkit \cite{mcphillips2015ywIJDC,yw-website}. Using simple
 \yw-annotations, a scientist can use our toolkit to easily and
 quickly\footnote{The first author of \cite{bocinsky2014} reported that
-  creating the annotations for the \yw-model depicted in
+  creating the initial annotations for the \yw-model depicted in
   \cite{mcphillips2015ywIJDC} (for an \R\ script used in
-  \cite{bocinsky2014}) took only half an hour.}  create a high-level
-dataflow model for a script-based workflow.  Since \yw-annotations are
+  \cite{bocinsky2014}) took only half an hour.  }  create a high-level
+dataflow model for a script-based workflow.  Although more comprehensive 
+modeling, additional annotations, and a greater time commitment are required 
+to gain the full benefits of \yw, the toolkit provides incrementally more benefits 
+as more detail is added to the \yw\ model of a script.  Since \yw-annotations are
 embedded as comments in the host language, our approach is
 language-independent, and can be applied to any of the usual scripting
 or programming languages.
