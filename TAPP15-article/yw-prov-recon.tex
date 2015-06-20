@@ -304,7 +304,12 @@ scientist's script anyways. Conversely, the \NW\ provenance approach
 used in \cite{dey15} logs additional runtime provenance, typically at
 a much finer level of granularity. Runtime provenance recording may
 introduce significant execution overhead when not used with
-caution. In our experience, important retrospective provenance queries
+caution \footnote{This overhead is often described in terms of the 
+computation required to record the large numbers of events that occur
+during script execution.  A sometimes more significant
+\emph{storage} overhead is incurred by a recorder that saves every variable
+value for a script that reads or writes hundreds of files each tens or hundreds of megabytes
+in size.}. In our experience, important retrospective provenance queries
 are typically well within the scope of the ``provenance-recorder
 free'' model afforded by \yw.  In Section~\ref{sec:queries} we give
 such example queries, inspired by a real-world, production-level
