@@ -184,7 +184,7 @@ executed outside of workflow management systems. This is due in part
 to the convenience and familiarity of scripting languages (such as
 Perl, Python, \R, and \MATLAB), and to the high productivity many
 scientists experience when using these languages. The \YW\ toolkit
-\cite{yw-website,mcphillips2015yw} aims to provide
+\cite{yw-website,mcphillips2015ywIJDC} aims to provide
 such users of scripting languages with many of the benefits of
 scientific workflow automation. Instead of requiring users to migrate
 their scripts to a scientific workflow system, \yw\ provides tools for
@@ -203,12 +203,12 @@ scientists on the other.
 In the following, we develop one part of this vision, i.e., the use of
 \yw\ to reveal prospective \emph{and} retrospective provenance
 \cite{zhao2006applying} from scripts, extending prior work that only
-provided the former \cite{mcphillips2015yw}.
+provided the former \cite{mcphillips2015ywIJDC}.
 In order to use \yw, an author marks up scripts using simple,
 keyword-based annotations. These annotations can be placed within any
 legal comments within a script, so the \yw\ approach and toolkit are 
 language independent.\footnote{\yw\ has been applied to
-  Python, \R, and \MATLAB\ scripts already.}  % \cite{mcphillips2015yw}
+  Python, \R, and \MATLAB\ scripts already.}  % \cite{mcphillips2015ywIJDC}
 %
 Software in the \yw\ toolkit extract and analyze these comments,
 represent the scripts in terms of entities based on a common
@@ -652,11 +652,11 @@ annotation-based approach such as \YW\ can be used to obtain
 prospective provenance and---as illustrated in this
 paper---retrospective provenance as well, without the use of a runtime
 provenance recorder.  We have implemented and continue to improve the
-\yw\ toolkit \cite{mcphillips2015yw,yw-website}. Using simple
+\yw\ toolkit \cite{mcphillips2015ywIJDC,yw-website}. Using simple
 \yw-annotations, a scientist can use our toolkit to easily and
 quickly\footnote{The first author of \cite{bocinsky2014} reported that
   creating the annotations for the \yw-model depicted in
-  \cite{mcphillips2015yw} (for an \R\ script used in
+  \cite{mcphillips2015ywIJDC} (for an \R\ script used in
   \cite{bocinsky2014}) took only half an hour.}  create a high-level
 dataflow model for a script-based workflow.  Since \yw-annotations are
 embedded as comments in the host language, our approach is
@@ -681,13 +681,17 @@ Despite being a grass-roots effort that was launched only recently,
 \yw\ has already been successfully applied to real-world, script-based
 workflows in \R, \MATLAB, and Python; application domains include
 climate modeling, bioinformatics, and archeology
-\cite{mcphillips2015yw}.
+\cite{mcphillips2015ywIJDC}.
 In future work, we will explore other community efforts to workflow
 modeling such as the Common Workflow Language \cite{amstutz15CDL} and
 the Workflow Description Language \cite{frazer15WDL} for use in \YW.
 
+\paragraph{Acknowledgments.}
+Work supported in part by the National Science Foundation under awards
+DBI-1356751 (Kurator), SMA-1439603 (SKOPE), ACI-0830944 (DataONE).
+
 \bibliographystyle{alpha-initials-big}
-\small
+\footnotesize
 \bibliography{yw-prov-recon}
 
 
