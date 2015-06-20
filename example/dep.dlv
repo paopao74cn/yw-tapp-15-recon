@@ -76,3 +76,12 @@ q3(RawImageFile) :-
    resource_channel(RawImageId, RawImageChannel),
    depends_on(CorrectedImageId, RawImageId),
    resource(RawImageId, RawImageFile).    
+
+q5(CassetteId) :-
+   resource(CorrectedImage, "./run/data/DRT240/DRT240_10000eV_010.img"),
+   program(TransformImagesId, "transform_images", _, _),
+   has_in_port(TransformImagesId, InPort), 
+   port_connects_to_channel(InPort, InChannelId), 
+   resource_channel(Resource, InChannelId), 
+   depends_on(CorrectedImage, Resource), 
+   uri_resource_variable_value(Resource, "cassette_id", CassetteId).

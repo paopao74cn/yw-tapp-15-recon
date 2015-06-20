@@ -261,14 +261,30 @@ by the \code{corrected\_image} port is sought.  Return raw images for
 which no corrected image is found.
 
 \paragraph{($Q_5$) What was the id of the cassette from which sample
-  leading to \code{DRT240\_10000ev\_010.img} was taken?} This query
+  leading to \code{DRT240\_10000eV\_010.img} was taken?} This query
 shows how the retrospective data lineage information can be used to
 track the physical provenance of samples.  The general solution here
 is to search the upstream lineage of data provided to
 \code{transform\_images}, looking for URI templates that include
 \code{cassette\_id} and \code{sample\_id} as template
 variables. Return the value of \code{cassette\_id} that occurs in URI
-expansions where \code{sample\_id} matches \code{DRT240}.
+expansions where \code{sample\_id} matches \code{DRT240}. $Q_5$ can be
+expressed as the Datalog query:
+\begin{small}
+\begin{verbatim}
+cassette_used(CassetteId) :-
+   resource(CorrectedImage,"./run/data/
+            DRT240/DRT240_10000eV_010.img"),
+   program(TransformImages,transform_images,_,_),
+   has_in_port(TransformImages,InPort), 
+   port_connects_to_channel(InPort,Channel), 
+   resource_channel(Resource,Channel), 
+   depends_on(CorrectedImage,Resource), 
+   uri_resource_var_value(Resource,cassette_id,
+                          CassetteId).
+\end{verbatim}
+\end{small}
+For our example, the above query will yield the cassette id ``q55''. 
 
 \paragraph{Example Code.}
 The example Python code, along with the \yw-generated prospective
