@@ -77,22 +77,25 @@ if __name__ == '__main__':
     variable_value_facts(244, 273, 6, '11000')
 
 
+    # MAX Corre
+    max_corrected_val = 138     # changed from 139 for q4 to output a result
+
 
     # values for corrected image sample_id uri variables
     variable_value_facts(6, 79, 7, 'DRT240')  
-    variable_value_facts(80, 139, 7, 'DRT322')
+    variable_value_facts(80, max_corrected_val, 7, 'DRT322') 
     
     # values for corrected image frame_number uri variables
     variable_incrementing_values_facts(6, 42, 8, 1)
     variable_incrementing_values_facts(43, 79, 8, 1)
     variable_incrementing_values_facts(80, 109, 8, 1)
-    variable_incrementing_values_facts(110, 138, 8, 1)   # changed from 139 for Q4 to output a result
+    variable_incrementing_values_facts(110, max_corrected_val, 8, 1)   # changed from 139 for Q4 to output a result
 
     # values for corrected image energy uri variables
     variable_value_facts(6, 42, 9, '10000')
     variable_value_facts(43, 79, 9, '11000')
     variable_value_facts(80, 109, 9, '10000')
-    variable_value_facts(110, 139, 9, '11000')
+    variable_value_facts(110, max_corrected_val, 9, '11000')
 
     
     # values for sample spreadsheet cassette_id 

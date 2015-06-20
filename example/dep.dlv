@@ -77,6 +77,22 @@ q3(RawImageFile) :-
    depends_on(CorrectedImageId, RawImageId),
    resource(RawImageId, RawImageFile).    
 
+q4(RawImageFile) :-
+    channel(RawImageChannel, "raw_image"), 
+    resource_channel(RawImage, RawImageChannel), 
+%    not corrected_raw_image(RawImage),
+    resource(RawImage, RawImageFile).
+    
+corrected_raw_image(RawImageFile, CorrectedImageFile) :-
+    channel(RawImageChannel, "raw_image"), 
+    resource_channel(RawImage, RawImageChannel), 
+    resource(RawImage, RawImageFile), 
+    channel(CorrectedImageChannel, "corrected_image"), 
+    resource_channel(CorrectedImage, CorrectedImageChannel),
+    depends_on(CorrectedImage, RawImage),
+    resource(CorrectedImage, CorrectedImageFile).
+
+
 q5(CassetteId) :-
    resource(CorrectedImage, "./run/data/DRT240/DRT240_10000eV_010.img"),
    program(TransformImagesId, "transform_images", _, _),

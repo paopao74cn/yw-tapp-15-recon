@@ -206,7 +206,7 @@ port_connects_to_channel(21, 6).
 port_connects_to_channel(1, 7).
 port_connects_to_channel(24, 7).
 port_connects_to_channel(1, 8).
-port_connects_to_channel(41, 8).
+pport_connects_to_channel(41, 8).
 port_connects_to_channel(3, 9).
 port_connects_to_channel(11, 9).
 port_connects_to_channel(2, 10).
@@ -1475,7 +1475,6 @@ uri_variable_value(135, 7, "DRT322").
 uri_variable_value(136, 7, "DRT322").
 uri_variable_value(137, 7, "DRT322").
 uri_variable_value(138, 7, "DRT322").
-uri_variable_value(139, 7, "DRT322").
 uri_variable_value(6, 8, "1").
 uri_variable_value(7, 8, "2").
 uri_variable_value(8, 8, "3").
@@ -1742,5 +1741,4 @@ uri_variable_value(135, 9, "11000").
 uri_variable_value(136, 9, "11000").
 uri_variable_value(137, 9, "11000").
 uri_variable_value(138, 9, "11000").
-uri_variable_value(139, 9, "11000").
 uri_variable_value(2, 2, "q55").
