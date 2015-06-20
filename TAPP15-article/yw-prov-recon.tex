@@ -491,154 +491,157 @@ directories (\code{transform\_images}).
 \end{figure}
 
 
-\section{Querying Retrospective Provenance} 
-\label{sec:queries}
+% \section{Querying Retrospective Provenance} 
+% \label{sec:queries}
 
-Our approach to revealing the retrospective provenance of script
-products in the absence of a provenance recorder is based on a number
-of observations. Many scientists use directory structures and
-directory and file names to organize data produced by scripts and to
-denote their relationships. In particular, when scientists write
-scripts they often have a set of retrospective provenance queries in
-mind that are of such high priority that they want to be able to
-answer them without interpreting the contents of log files. This is
-especially important when individual log files are independently
-written by different programs invoked by the single script.  The
-information required to answer these queries is therefore embedded by
-scientists in filenames, directory names, and in the hierarchical
-directory structures in which data is organized.  Our response to
-these observations is to let script writers describe this information
-naturally via URI template expressions. In this way \YW\ allows script
-writers to declare how script inputs and outputs are named and
-organized based on actual data and metadata values occurring at
-runtime.
+% Our approach to revealing the retrospective provenance of script
+% products in the absence of a provenance recorder is based on a number
+% of observations. Many scientists use directory structures and
+% directory and file names to organize data produced by scripts and to
+% denote their relationships. In particular, when scientists write
+% scripts they often have a set of retrospective provenance queries in
+% mind that are of such high priority that they want to be able to
+% answer them without interpreting the contents of log files. This is
+% especially important when individual log files are independently
+% written by different programs invoked by the single script.  The
+% information required to answer these queries is therefore embedded by
+% scientists in filenames, directory names, and in the hierarchical
+% directory structures in which data is organized.  Our response to
+% these observations is to let script writers describe this information
+% naturally via URI template expressions. In this way \YW\ allows script
+% writers to declare how script inputs and outputs are named and
+% organized based on actual data and metadata values occurring at
+% runtime.
 
-% Although looking through directories to understand what a script did
-% can be more effective than looking through multiple log files,
-With \YW\ we aim to make scientists even more productive by
-eliminating the need to explore directory structures manually.  \yw\
-can implement the scientists' high-priority questions as
-\emph{provenance queries} using the declared URI template information.
+% % Although looking through directories to understand what a script did
+% % can be more effective than looking through multiple log files,
+% With \YW\ we aim to make scientists even more productive by
+% eliminating the need to explore directory structures manually.  \yw\
+% can implement the scientists' high-priority questions as
+% \emph{provenance queries} using the declared URI template information.
 
-% \YW\ thus can provide value by using the declared URI templates in
-% scripts to answer scientists' high-priority queries without requiring
-% them to inspect the contents of directories.
+% % \YW\ thus can provide value by using the declared URI templates in
+% % scripts to answer scientists' high-priority queries without requiring
+% % them to inspect the contents of directories.
 
-We report in this section a number of typical provenance queries that
-are expressed against our example script. For each query we begin by
-describing how a scientist would determine the answer by inspecting
-the names and organization of the files produced by the script. We
-then provide a more general approach to answering each query that does
-not depend on the exact directory structure and file naming
-conventions used in the script (while continuing to assume that
-sufficient information is recorded in such a manner that a scientist
-could answer the question by hand and in the absence of runtime
-provenance recording.) 
-% For the first queries we also summarize how
-% these can be implemented using logic rules and facts produced by the
-% \yw\ tools.
-%  based on its analysis of the script and files it
-% discovers matching the URI templates in the script.
+% We report in this section a number of typical provenance queries that
+% are expressed against our example script. For each query we begin by
+% describing how a scientist would determine the answer by inspecting
+% the names and organization of the files produced by the script. We
+% then provide a more general approach to answering each query that does
+% not depend on the exact directory structure and file naming
+% conventions used in the script (while continuing to assume that
+% sufficient information is recorded in such a manner that a scientist
+% could answer the question by hand and in the absence of runtime
+% provenance recording.) 
+% % For the first queries we also summarize how
+% % these can be implemented using logic rules and facts produced by the
+% % \yw\ tools.
+% %  based on its analysis of the script and files it
+% % discovers matching the URI templates in the script.
 
-Queries $Q_1$ and $Q_2$ represent script run \emph{reports}, i.e.,
-they answer questions that the user may have about the samples used,
-experimental conditions employed, and results obtained by the script.
-Queries $Q_3$ and $Q_4$, on the other hand, are backward and forward
-lineage queries, respectively. $Q_3$ identifies an intermediate data
-product that a specific final product was derived from; $Q_4$
-determines if there are any intermediate products for which there are
-no corresponding final products (this is an example of a
-\emph{why-not} provenance query). $Q_5$ can be viewed as a data
-lineage query that reveals the \emph{physical} provenance of a sample
-(the identity of a cassette that stores a specific sample).
+% Queries $Q_1$ and $Q_2$ represent script run \emph{reports}, i.e.,
+% they answer questions that the user may have about the samples used,
+% experimental conditions employed, and results obtained by the script.
+% Queries $Q_3$ and $Q_4$, on the other hand, are backward and forward
+% lineage queries, respectively. $Q_3$ identifies an intermediate data
+% product that a specific final product was derived from; $Q_4$
+% determines if there are any intermediate products for which there are
+% no corresponding final products (this is an example of a
+% \emph{why-not} provenance query). $Q_5$ can be viewed as a data
+% lineage query that reveals the \emph{physical} provenance of a sample
+% (the identity of a cassette that stores a specific sample).
 
-\paragraph{($Q_1$) \emph{What samples did the run of the script
-  collect images from?}} 
-The scientist's solution is to look at the contents of the
-\code{run/raw/q55} directory (\figref{fig-data-tree}). The names of
-subdirectories are the names of the samples collected on.
+% \paragraph{($Q_1$) \emph{What samples did the run of the script
+%   collect images from?}} 
+% The scientist's solution is to look at the contents of the
+% \code{run/raw/q55} directory (\figref{fig-data-tree}). The names of
+% subdirectories are the names of the samples collected on.
 
-\textbf{General solution using \yw}: Assume that `what samples' means
-`what values of \code{sample\_id} as seen by
-\code{collect\_data\_set}'. Then the solution is to look for all
-persisted outputs of \code{collect\_data\_set} that include
-\code{sample\_id} in the expanded URI template.
-Extract the value of \code{sample\_id} from each and return the set of
-unique values. $Q_1$ can be expressed as a Datalog query:
-\begin{verbatim}
-samples_used(SampleId) :- 
-    uri_variable_value(collect_data_set,
-                       raw_image_path,
-                       sample_id, 
-                       SampleId).
-\end{verbatim}
-against the provenance facts reconstructed by \yw. For our example, this will yield the
-answers \code{DRT240} and \code{DRT322}.
+% \textbf{General solution using \yw}: Assume that `what samples' means
+% `what values of \code{sample\_id} as seen by
+% \code{collect\_data\_set}'. Then the solution is to look for all
+% persisted outputs of \code{collect\_data\_set} that include
+% \code{sample\_id} in the expanded URI template.
+% Extract the value of \code{sample\_id} from each and return the set of
+% unique values. $Q_1$ can be expressed as a Datalog query:
+% \begin{verbatim}
+% samples_used(SampleId) :- 
+%     uri_variable_value(collect_data_set,
+%                        raw_image_path,
+%                        sample_id, 
+%                        SampleId).
+% \end{verbatim}
+% against the provenance facts reconstructed by \yw. For our example, this will yield the
+% answers \code{DRT240} and \code{DRT322}.
 
 
-\paragraph{($Q_2$): What energies were used during collection of
-  images from sample \code{DRT322}?}
-The scientist's solution is to look at the contents of the
-\code{run/raw/q55/DRT322} directory. The names of subdirectories are
-the values of the energies.
+% \paragraph{($Q_2$): What energies were used during collection of
+%   images from sample \code{DRT322}?}
+% The scientist's solution is to look at the contents of the
+% \code{run/raw/q55/DRT322} directory. The names of subdirectories are
+% the values of the energies.
 
-\textbf{General solution using \yw}: Assume that `what energies' and
-`from sample \code{DRT322}' mean `what values of energy as seen by
-\code{collect\_data\_set} when \code{sample\_id} equals \code{DRT322}
-as seen by \code{collect\_data\_set}'.  Then the solution is to look
-for all persisted outputs of \code{collect\_data\_set} that include
-both energy and \code{sample\_id} in the expanded URI template for the
-output.  Extract the value of energy from each such path for which
-\code{sample\_id} equals \code{DRT322} and return the set of unique
-values.
+% \textbf{General solution using \yw}: Assume that `what energies' and
+% `from sample \code{DRT322}' mean `what values of energy as seen by
+% \code{collect\_data\_set} when \code{sample\_id} equals \code{DRT322}
+% as seen by \code{collect\_data\_set}'.  Then the solution is to look
+% for all persisted outputs of \code{collect\_data\_set} that include
+% both energy and \code{sample\_id} in the expanded URI template for the
+% output.  Extract the value of energy from each such path for which
+% \code{sample\_id} equals \code{DRT322} and return the set of unique
+% values.
 
-\paragraph{($Q_3$)
-  Where is the raw image corresponding to corrected image
-  \code{DRT322\_11000ev\_028.img}?}
-The scientist's solution is to look at the image files nested within
-the \code{raw} directory.  Find the image file that contains the
-\code{"DRT322"}, \code{"11000"}, and \code{"028"} in the file access
-path.
+% \paragraph{($Q_3$)
+%   Where is the raw image corresponding to corrected image
+%   \code{DRT322\_11000ev\_028.img}?}
+% The scientist's solution is to look at the image files nested within
+% the \code{raw} directory.  Find the image file that contains the
+% \code{"DRT322"}, \code{"11000"}, and \code{"028"} in the file access
+% path.
 
-\textbf{General solution using \yw}: Assume that `raw image for
-corrected image' means `what file output by the port named
-\code{raw\_image} with values for URI template variables equal to the
-matching URI template expansion variables in the path to the file
-\code{DRT322\_11000ev\_028.img} output by the port named
-\code{corrected\_image}'.  Then the solution is to extract the URI
-template variable names and values from the path to
-\code{DRT322\_11000ev\_028.img} output by the port named
-\code{corrected\_image}, look at the paths for all files output by the
-\code{raw\_image} port, and return the file whose path includes
-template variables with names and values matching those for
-\code{DRT322\_11000ev\_028.img} (not all variables need be present in
-both paths, but where the variable with same name is used the values
-must match).
+% \textbf{General solution using \yw}: Assume that `raw image for
+% corrected image' means `what file output by the port named
+% \code{raw\_image} with values for URI template variables equal to the
+% matching URI template expansion variables in the path to the file
+% \code{DRT322\_11000ev\_028.img} output by the port named
+% \code{corrected\_image}'.  Then the solution is to extract the URI
+% template variable names and values from the path to
+% \code{DRT322\_11000ev\_028.img} output by the port named
+% \code{corrected\_image}, look at the paths for all files output by the
+% \code{raw\_image} port, and return the file whose path includes
+% template variables with names and values matching those for
+% \code{DRT322\_11000ev\_028.img} (not all variables need be present in
+% both paths, but where the variable with same name is used the values
+% must match).
 
-\paragraph{($Q_4$)
-  Are there any raw images for which \emph{no} corrected image was written?}
-This is somewhat similar to $Q_ 3$, but follows the lineage in the
-``forward direction'' and (unlike $Q_4$) asks about the absence of
-data.  In this case the path to each file written by the
-\code{raw\_image} port is examined, and a corresponding file written
-by the \code{corrected\_image} port is sought.  Return raw images for
-which no corrected image is found.
+% \paragraph{($Q_4$)
+%   Are there any raw images for which \emph{no} corrected image was written?}
+% This is somewhat similar to $Q_ 3$, but follows the lineage in the
+% ``forward direction'' and (unlike $Q_4$) asks about the absence of
+% data.  In this case the path to each file written by the
+% \code{raw\_image} port is examined, and a corresponding file written
+% by the \code{corrected\_image} port is sought.  Return raw images for
+% which no corrected image is found.
 
-\paragraph{($Q_5$) What was the id of the cassette from which sample
-  leading to \code{DRT240\_10000ev\_010.img} was taken?} This query
-shows how the retrospective data lineage information can be used to
-track the physical provenance of samples.  The general solution here
-is to search the upstream lineage of data provided to
-\code{transform\_images}, looking for URI templates that include
-\code{cassette\_id} and \code{sample\_id} as template
-variables. Return the value of \code{cassette\_id} that occurs in URI
-expansions where \code{sample\_id} matches \code{DRT240}.
+% \paragraph{($Q_5$) What was the id of the cassette from which sample
+%   leading to \code{DRT240\_10000ev\_010.img} was taken?} This query
+% shows how the retrospective data lineage information can be used to
+% track the physical provenance of samples.  The general solution here
+% is to search the upstream lineage of data provided to
+% \code{transform\_images}, looking for URI templates that include
+% \code{cassette\_id} and \code{sample\_id} as template
+% variables. Return the value of \code{cassette\_id} that occurs in URI
+% expansions where \code{sample\_id} matches \code{DRT240}.
 
-\paragraph{Example Code.}
-The example Python code, along with the \yw-generated prospective
-provenance shown in \figref{fig-wfgraph}, and some of the
-\yw-reconstructed retrospective provenance facts and rules are
-available from \cite{mcphillips2015example}.
+% \paragraph{Example Code.}
+% The example Python code, along with the \yw-generated prospective
+% provenance shown in \figref{fig-wfgraph}, and some of the
+% \yw-reconstructed retrospective provenance facts and rules are
+% available from \cite{mcphillips2015example}.
+
+\input{querying.tex}
+
 
 \section{Discussion and Conclusions} 
 \label{sec:discussion}
@@ -692,9 +695,11 @@ the Workflow Description Language \cite{frazer15WDL} for use in \YW.
 Work supported in part by the National Science Foundation under awards
 DBI-1356751 (Kurator), SMA-1439603 (SKOPE), ACI-0830944 (DataONE).
 
+
 \bibliographystyle{alpha-initials-big}
 \footnotesize
 \bibliography{yw-prov-recon}
+
 
 
 \end{document}
