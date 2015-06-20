@@ -80,17 +80,15 @@ q3(RawImageFile) :-
 q4(RawImageFile) :-
     channel(RawImageChannel, "raw_image"), 
     resource_channel(RawImage, RawImageChannel), 
-%    not corrected_raw_image(RawImage),
+    not corrected_raw_image(RawImage),
     resource(RawImage, RawImageFile).
     
-corrected_raw_image(RawImageFile, CorrectedImageFile) :-
+corrected_raw_image(RawImage) :- 
     channel(RawImageChannel, "raw_image"), 
     resource_channel(RawImage, RawImageChannel), 
-    resource(RawImage, RawImageFile), 
     channel(CorrectedImageChannel, "corrected_image"), 
     resource_channel(CorrectedImage, CorrectedImageChannel),
-    depends_on(CorrectedImage, RawImage),
-    resource(CorrectedImage, CorrectedImageFile).
+    depends_on(CorrectedImage, RawImage).
 
 
 q5(CassetteId) :-

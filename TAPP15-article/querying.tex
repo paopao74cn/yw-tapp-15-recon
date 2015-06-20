@@ -258,13 +258,36 @@ This is somewhat similar to $Q_ 3$, but follows the lineage in the
 data.  In this case the path to each file written by the
 \code{raw\_image} port is examined, and a corresponding file written
 by the \code{corrected\_image} port is sought.  Return raw images for
-which no corrected image is found.
+which no corrected image is found. $Q_4$ can be expressed as the Datalog query:
 
-\paragraph{($Q_5$) What was the id of the cassette from which sample
-  leading to \code{DRT240\_10000eV\_010.img} was taken?} This query
-shows how the retrospective data lineage information can be used to
-track the physical provenance of samples.  The general solution here
-is to search the upstream lineage of data provided to
+\begin{small}
+\begin{verbatim}
+no_corrected_image_written(RawImageFile) :-
+   channel(RawImageChannel,raw_image),
+   resource_channel(RawImage,RawImageChannel),
+   not corrected_raw_image(RawImage),
+   resource(RawImage,RawImageFile).
+
+corrected_raw_image(RawImage) :-
+    channel(RawImageChannel,raw_image),
+    resource_channel(RawImage,RawImageChannel),
+    channel(CorrectedImageChannel,corrected_image),
+    resource_channel(CorrectedImage,
+                     CorrectedImageChannel),
+    depends_on(CorrectedImage,RawImage).
+\end{verbatim}
+\end{small}
+In this case, the {\tt corrected\_raw\_image} relation finds those raw
+images that do have a corresponding corrected image written. To answer
+the query, we find exactly those raw images for which {\tt
+  corrected\_raw\_image} fails (thus implying the raw image has no
+corrected image).
+
+\paragraph{($Q_5$) What was the id of the cassette from which the
+  sample leading to \code{DRT240\_10000eV\_010.img} was taken?} This
+query shows how the retrospective data lineage information can be used
+to track the physical provenance of samples.  The general solution
+here is to search the upstream lineage of data provided to
 \code{transform\_images}, looking for URI templates that include
 \code{cassette\_id} and \code{sample\_id} as template
 variables. Return the value of \code{cassette\_id} that occurs in URI
