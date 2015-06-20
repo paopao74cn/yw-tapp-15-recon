@@ -308,14 +308,25 @@ free'' model afforded by \yw.  In Section~\ref{sec:queries} we give
 such example queries, inspired by a real-world, production-level
 workflow \cite{tsai2013autodrug}.
 
-
 Finally, a distinctive feature of the annotation-based approach
 employed by \YW\ is that it allows scientists to quickly and easily
 provide a \emph{model} of their workflow that corresponds to the way
-they \emph{think} about it. This model is typically not apparent from,
-and difficult to tease out of, a script or fine-grained runtime
-provenance model that focuses on function calls and program
-variables. 
+they \emph{think} about it. This model is
+typically not apparent from, and difficult to tease out of, a script
+or fine-grained runtime provenance model that focuses on function
+calls and program variables.
+
+% While \cite{mcphillips2015ywIJDC} focused on annotations of
+% prospective provenance, the present paper extends the YW language with
+% new annotations for URI templates that allow to link a user's
+% conceptual workflow model with the physical locations of the data
+% objects used by the script. 
+
+% In addition to this important and new YW model extension,
+% there's a new system that implements the associated YW-recon tool (all
+% new!!). The ability to query retrospective provenance without a
+% provenance recorder (exploiting existing data products instead) is
+% also novel!
 
 The use of \yw\ with languages for personal data spaces
 \cite{vaz2007itrails,hedeler2009dimensions} and workflow modeling
@@ -343,18 +354,19 @@ interesting topic for future research.
 \section{\YW\ Language}
 \label{sec:yesworkflow}
 
-%Given a script, YesWorkflow generates a prospective provenance in the form of a workflow characterizing the main building blocks of the script and their data dependencies. 
-
-
+% Given a script, YesWorkflow generates a prospective provenance in
+% the form of a workflow characterizing the main building blocks of
+% the script and their data dependencies.
 
 The steps required to use \YW\ to reveal the prospective and
 retrospective provenance of the data products of a script are as
-follows.  The script author begins by annotating the computational
-blocks and dataflows in the script using expressions of the form
+follows.  As described in \cite{mcphillips2015ywIJDC}, the script
+author begins by annotating the computational blocks and dataflows in
+the script using expressions of the form
 \ywa{@\emph{tag}}\,\textvisiblespace\,\ywa{\emph{value}}. Here,
-\ywa{@\emph{tag}} is one of the recognized \yw-keywords, after which
-a \ywa{\emph{value}} follows, separated by one or more whitespace
-characters.  
+\ywa{@\emph{tag}} is one of the recognized \yw-keywords, after which a
+\ywa{\emph{value}} follows, separated by one or more whitespace
+characters.
 
 \yw\ then interprets the embedded, structured comments and builds a
 simple workflow model of the script. This model represents scripts in
@@ -382,6 +394,12 @@ ports, and channels:
   one or more channels is considered a \emph{workflow}.
 \end{itemize}
 
+For more details about the YW annotations used for declaring
+prospective provenance, see \cite{mcphillips2015ywIJDC}.  The
+remainder of the paper describes (i) the new YW extensions for linking
+the script and its prospective provenance to the script-external data
+objects (e.g., files); and (ii) how retrospective provenance can be
+reconstructed and queried after script execution.
 
 \section{Reconstructing Runtime Provenance}
 \label{sec:reconstr-retr-prov}
