@@ -427,24 +427,32 @@ in a particular code block.  The script in \figref{fig-script} shows
 program variable \code{raw\_image\_path} and to the external data
 organization via a URI template with variables. Such template variables (e.g.,
 \verb|{sample_id}| and \verb|{energy}|) are enclosed in curly braces.
-
-
-
 % Khalid: Note that while the variables in URI templates are required
 % to distinguish multiple outputs from a single code block during a
 % single run of a script, they can also be used to organize (and thus
 % support retrospective provenance queries) across the outputs of
 % multiple runs of the same script.
-
 % Features for using these URI templates to infer the retrospective
 % provenance of script outputs are under development.
-
 Following a run of a script, \YW\ will use these URI templates to
 discover the actual resources written or read during the run.  By
 matching the actual file paths with the URI templates, the template
 variables are bound, thus yielding retrospective provenance
 information that can be queried subsequently.
 
+In summary, the steps taken by a scientist using \YW\ effectively are envisioned
+as follows.
+The scientist first writes a script, marks it up with \yw\ annotations, 
+visualizes it using the \yw\ toolkit, and confirms that the workflow model 
+displayed by \YW\ matches the scientist's mental model of the script.
+To employ \YW\ for provenance management, the scientist stages input data 
+for an execution of the script, runs the script on the staged input data, then
+immediately runs \YW\ in \emph{reconstruction} mode to detect files 
+(along with file metadata such as owner and creation time) 
+produced by the just-completed run of the script. \YW\ saves
+the reconstructed provenance information associated with the latest run of the script
+so that it can be queried at any later date even if the files produced by the
+run of the script are subsequently deleted, renamed, or overwritten.
 
 % \yw\ then will partially reconstruct the execution of the script using
 % the number of files found to correspond to each URI template, the
