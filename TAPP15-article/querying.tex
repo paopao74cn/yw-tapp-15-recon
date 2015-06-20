@@ -145,11 +145,8 @@ unique values. $Q_1$ can be expressed as the Datalog query:
 \begin{small}
 \begin{verbatim}
 samples_used(SampleId) :- 
-   resource_info(ResourceId, 
-                 collect_data_set,
-                 raw_image,
-                 sample_id,
-                 SampleId).
+   resource_info(ResourceId,collect_data_set,
+                 raw_image,sample_id,SampleId).
 \end{verbatim}
 \end{small}
 where {\tt resource\_info} is a simple view expressed against the
@@ -176,12 +173,10 @@ values. $Q_2$ can be expressed as the Datalog query:
 \begin{small}
 \begin{verbatim}
 energies_used(EnergyValue) :-
-   resource_info(ResourceId, 
-                 collect_data_set, raw_image, 
-                 sample_id, "DRT322"),
-   resource_info(ResourceId, 
-                 collect_data_set, raw_image, 
-                 energy, EnergyValue).
+   resource_info(ResourceId,collect_data_set,
+                 raw_image,sample_id,"DRT322"),
+   resource_info(ResourceId,collect_data_set,
+                 raw_image,energy,EnergyValue).
 \end{verbatim}
 \end{small}
 For our example, the above query will yield the answers \code{10000}
@@ -212,12 +207,12 @@ must match).  $Q_3$ can be expressed as the Datalog query:
 \begin{small}
 \begin{verbatim}
 raw_image_used(RawImageFile) :-
-   resource(CorrectedImage, "./run/data/
+   resource(CorrectedImage,"./run/data/
             DRT322/DRT322_11000eV_028.img"),
-   channel(RawImageChannel, raw_image),
-   resource_channel(RawImage, RawImageChannel),
-   depends_on(CorrectedImage, RawImage),
-   resource(RawImage, RawImageFile).
+   channel(RawImageChannel,raw_image),
+   resource_channel(RawImage,RawImageChannel),
+   depends_on(CorrectedImage,RawImage),
+   resource(RawImage,RawImageFile).
 \end{verbatim}
 \end{small}
 This query relies on a {\tt depends\_on} relation that computes the
