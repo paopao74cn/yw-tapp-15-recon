@@ -886,7 +886,7 @@ corrected_raw_image(RawImage) :-
     channel(RawImageChannel,raw_image),
     resource_channel(RawImage,RawImageChannel),
     channel(CorrImageChannel,corrected_image),
-    resource_channel(CorrImage,  CorrImageChannel),
+    resource_channel(CorrImage,CorrImageChannel),
     depends_on(CorrImage,RawImage).
 \end{verbatim}
 \end{scriptsize}
@@ -915,7 +915,7 @@ cassette_used(CassetteId) :-
    port_connects_to_channel(InPort,Channel), 
    resource_channel(Resource,Channel), 
    depends_on(CorrImage,Resource), 
-   uri_resource_var_value(Resource,cassette_id, CassetteId).
+   uri_resource_var_value(Resource,cassette_id,CassetteId).
 \end{verbatim}
 \end{scriptsize}
 For our example, the above query will yield the cassette id  \code{q55}.
