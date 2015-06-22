@@ -919,6 +919,27 @@ prospective provenance and---as illustrated in this
 paper---retrospective provenance as well, without the use of a runtime
 provenance recorder.  
 
+It is important to note the the assumptions upon which our approach currently
+is based.  
+Because no events are recorded by \YW\ while a script is executing, 
+no dependencies between script inputs, intermediate data products, and file
+outputs are directly observed. Instead, associations between input data, 
+parameters, and intermediate and final data products
+are inferred based on shared metadata values assigned to
+data read or written by the script.  The location
+of input and output files, and the portions of file access paths that correspond to
+metadata values, are declared using \yw\ annotations.  
+
+For queries $Q_3$, $Q_4$, and $Q_5$ we define and use the \code{depends\_on} relation
+that captures the assumption that---for this script---the existence or value of a data product 
+depends on another data product if the second item passes through 
+a data channel leading to the first, the two data products are assigned at least one shared
+metadata variable, and if all of the metadata variables shared by the two data products 
+also have shared values.
+In future work we plan to add support to \YW\ for explicitly declaring within \yw\ annotations
+when such dependencies may be inferred,  using the fine-grained data dependency 
+rules described in \cite{bowers2012rules}.
+
 We have implemented and continue to improve the
 \yw\ toolkit \cite{mcphillips2015ywIJDC,yw-website}. Using simple
 \yw-annotations, a scientist can use our toolkit to easily and
