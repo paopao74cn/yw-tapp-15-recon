@@ -274,12 +274,12 @@ which in turn facilitates reproducibility and reuse
   \ywa{@BEGIN} and \ywa{@END} delimit code blocks; \ywa{@IN} and
   \ywa{@OUT} tags model relevant input and output data elements of a
   block; \ywa{@PARAM} identifies a block's parameters. \ywa{@URI}
-  templates for raw images (line 5) and corrected images (line 19)
+  templates for raw images (line 5) and corrected images (line 18)
   link conceptual-level data elements such as \code{raw\_image} with
   runtime resources (data files and their file paths).  Executable
   script code is greyed out to emphasize \yw-annotations. A program
   variable (\code{raw\_image\_path}) is highlighted in the code (lines
-  8, 11,23): aliases (lines 4, 16) are used to link such program-level
+  8, 11, 21): aliases (lines 4, 16) are used to link such program-level
   objects to the scientist's concepts (here: \code{raw\_image}). Full
   example available from \cite{mcphillips2015example}.}
 \label{fig-script}
@@ -296,7 +296,7 @@ which in turn facilitates reproducibility and reuse
     blocks.  Available URI templates are 
     depicted in the lower halves of data element nodes in
     the graph and specify the directory structure and file names for
-    persisting those data. }
+    accessing or persisting those data. }
   \label{fig-wfgraph}
 \end{figure*}
 
@@ -381,11 +381,11 @@ as \NW\ \cite{murta2014nw}. A key difference is that our ``\yw-only''
 approach presented here does not incur any runtime overhead, since
 retrospective provenance is reconstructed only after a script has
 executed and using only those files that were read and written by the
-scientist's script anyways. Conversely, the \NW\ provenance approach
+scientist's script. Conversely, the \NW\ provenance approach
 used in \cite{dey15} logs additional runtime provenance, typically at
 a much finer level of granularity. Runtime provenance recording may
 introduce significant execution overhead when not used with
-caution \footnote{This overhead is often described in terms of the 
+caution\footnote{This overhead is often described in terms of the 
 computation required to record the large numbers of events that occur
 during script execution.  A sometimes more significant
 \emph{storage} overhead is incurred by a recorder that saves every variable
@@ -479,7 +479,7 @@ reconstructed and queried after script execution.
 \label{sec:reconstr-retr-prov}
 
 % \paragraph{URI Templates.}
-New retrospective \yw\ capabilities are enabled when the script author
+New retrospective \YW\ capabilities are enabled when the script author
 qualifies \ywa{@IN} and \ywa{@OUT} annotations that refer to external
 data resources using a \emph{URI template} that declares the path to the resource via
 an annotation of the form
@@ -768,7 +768,7 @@ and \code{11000}.
   Where is the raw image corresponding to corrected image
   \code{DRT322\_11000ev\_028.img}?}
 The scientist's solution is to look at the image files nested within
-the \code{raw} directory.  Find the image file that contains the
+the \code{raw} directory.  Find the image file that contains the values
 \code{DRT322}, \code{11000}, and \code{028} in the file access
 path.
 
