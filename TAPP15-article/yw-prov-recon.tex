@@ -340,8 +340,9 @@ workflow modeling, we have begun implementing a new approach for
 inferring retrospective provenance using \yw, while continuing to
 \emph{avoid} the need to add any runtime provenance recording
 capabilities to the system. Our approach is based on the observation
-that in many science domains, data processing scripts use naming
-conventions for data resources that already record the essential
+that in many science domains, scripts for collecting or 
+processing data often
+use naming conventions for data resources that already record the essential
 information about key events that occur at runtime. For workflows that
 take as input existing, staged sets of files and persist their
 intermediate and final results to new sets of files, a comparison of
@@ -526,8 +527,8 @@ run of the script are subsequently deleted, renamed, or overwritten.
 \subsection{Example: Data Collection from a Set of Protein Crystal
   Samples}
 We illustrate our approach using a Python script marked up with
-\yw-annotations.  The script simulates a portion of a common data
-collection workflow used by macromolecular crystallographers to
+\yw-annotations.  The script simulates a (simplified) portion of 
+a common data collection workflow used by macromolecular crystallographers to
 collect X-ray diffraction data from a set of samples at a synchrotron
 radiation beam line \protect\cite{tsai2013autodrug}.
 \figref{fig-script} depicts a code fragment, while
@@ -725,7 +726,7 @@ above query will yield the answers \code{DRT240} and \code{DRT322}.
 \paragraph{($Q_2$): What energies were used during collection of
   images from sample \code{DRT322}?}
 The scientist's solution is to look at the contents of the
-\code{run/raw/q55/DRT322} directory. The names of subdirectories are
+\code{run/raw/q55/DRT322} directory. The names of subdirectories indicate
 the values of the energies.
 
 \textbf{General solution using \yw}: Assume that `what energies' and
