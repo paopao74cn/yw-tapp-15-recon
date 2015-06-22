@@ -913,18 +913,31 @@ range of applications is not new (see, e.g.,
 widely known that by employing scientific workflow systems, users can
 benefit from prospective provenance (through workflow descriptions)
 and retrospective provenance (from runtime provenance recording)
-information. On the other hand, it is much less well known that an
-annotation-based approach such as \YW\ can be used to obtain
-prospective provenance and---as illustrated in this
+information. In this paper, we have shown that 
+%On the other hand, it is much less well known that an
+an annotation-based approach such as \YW\ can be used to obtain
+prospective provenance from scripts and---as illustrated in this
 paper---retrospective provenance as well, without the use of a runtime
 provenance recorder.  
 
-It is important to note the the assumptions upon which our approach currently
-is based.  
-Because no events are recorded by \YW\ while a script is executing, 
-no dependencies between script inputs, intermediate data products, and file
-outputs are directly observed. Instead, associations between input data, 
-parameters, and intermediate and final data products
+This retrospective provenance is easily obtained and combined with prospective
+provenance using new \yw\ annotations that declare URI templates. For this
+simple approach to work, we make the (realistic) assumption that
+scientists organize their data using directories for staging and
+collecting data files. E.g., Bowers \emph{et al.}
+\cite{bowers2007project} includes a detailed account of how a
+metagenomics researcher organizes his data and results in a nested
+folder scheme. The URI template approach for declaring the
+layout of data persisted by a workflow run in nested directories 
+also has been employed by the RestFlow scientific workflow system
+\cite{tsai2013autodrug}.
+
+It is, however, important to note the limitations of our approach to reconstructing retrospective
+provenance as currently implemented in \YW.  
+Because the \YW\ tools are not in any way invoked while a script is executing, 
+no dependencies between script inputs, intermediate data products, and final
+outputs are directly observed or recorded at run time. Instead, associations between 
+input data, parameters, and intermediate and final data products
 are inferred based on shared metadata values assigned to
 data read or written by the script.  The location
 of input and output files, and the portions of file access paths that correspond to
@@ -937,8 +950,8 @@ a data channel leading to the first, the two data products are assigned at least
 metadata variable, and if all of the metadata variables shared by the two data products 
 also have shared values.
 In future work we plan to add support to \YW\ for explicitly declaring within \yw\ annotations
-when such dependencies may be inferred,  using the fine-grained data dependency 
-rules described in \cite{bowers2012rules}.
+precisely when such dependencies may correctly be inferred, using the fine-grained 
+data dependency rules described in \cite{bowers2012rules}.
 
 We have implemented and continue to improve the
 \yw\ toolkit \cite{mcphillips2015ywIJDC,yw-website}. Using simple
@@ -960,18 +973,6 @@ way.  \YW\ users will not need to express their queries in Datalog
 or understand how \YW\ represents and stores reconstructed provenance
 information.
 
-In this paper, we also have shown that retrospective provenance from
-scripts can be easily obtained and combined with prospective
-provenance using new \yw-annotations with URI templates. For this
-simple approach to work, we make the (realistic) assumption that
-scientists organize their data using directories for staging and
-collecting data files: e.g., Bowers \emph{et al.}
-\cite{bowers2007project} includes a detailed account of how a
-metagenomics researcher organizes his data and results in a nested
-folder scheme. Moreover, the URI template approach for declaring the
-layout of data persisted by a workflow run in nested directories has
-been employed by the RestFlow scientific workflow system
-\cite{tsai2013autodrug}.
 % , where it is used by the workflow designer to
 % declare how workflow products should be organized by the system.
 Despite being a grass-roots effort that was launched only recently,
