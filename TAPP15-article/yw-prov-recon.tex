@@ -322,10 +322,19 @@ which in turn facilitates reproducibility and reuse
 % scripts is an example of such a system.
 %\paragraph{... without a Provenance Recorder.}
 In addition to prospective provenance, which captures the ``recipe''
-of how data products of a workflow or script are produced,
-retrospective (or \emph{runtime}) provenance is often required to
-convince scientists that their programs have indeed executed as
-expected, or to help debug faulty runs.  Many scientific workflow
+of how data products of a workflow or script are produced in general,
+retrospective (or \emph{runtime}) provenance often is required to 
+make effective use of products of a particular
+run of a script.  This type of provenance is especially important to capture
+when a workflow or script operates on data collected from multiple samples
+or produces large numbers of data products (e.g., files)
+distinguished by their dependencies on different samples,
+experimental conditions, or varying data processing parameters. In such situations,
+retrospective provenance enables the scientist to find, evaluate, and understand
+the relationships between the numerous input, intermediate, and final products
+of a script or workflow.  Retrospective
+provenance also can serve to convince scientists that their programs have 
+indeed executed as expected, or to help debug faulty runs.  Many scientific workflow
 systems offer runtime provenance recorders to capture retrospective
 provenance
 \cite{altintas2006provenance,davidson2007provenance,bowers2008kepler}. Similarly,
