@@ -747,7 +747,8 @@ name, and metadata information of resources:
 resource_metadata(ProgramName, PortName, ResourceId, 
                   VariableName, VariableValue) :-
     program(ProgramId, ProgramName, _, _), 
-    has_port(ProgramId, PortId), port_name(PortId, PortName), 
+    has_port(ProgramId, PortId), 
+    port_name(PortId, PortName), 
     channel(ChannelId, PortName),
     resource_channel(ResourceId, ChannelId), 
     uri_variable(VariableId, VariableName, PortId), 
@@ -885,8 +886,7 @@ corrected_raw_image(RawImage) :-
     channel(RawImageChannel,raw_image),
     resource_channel(RawImage,RawImageChannel),
     channel(CorrImageChannel,corrected_image),
-    resource_channel(CorrImage,
-                     CorrImageChannel),
+    resource_channel(CorrImage,  CorrImageChannel),
     depends_on(CorrImage,RawImage).
 \end{verbatim}
 \end{scriptsize}
@@ -909,15 +909,13 @@ expressed as the Datalog query:
 \begin{scriptsize}
 \begin{verbatim}
 cassette_used(CassetteId) :-
-   resource(CorrImage,"./run/data/
-            DRT240/DRT240_10000eV_010.img"),
+   resource(CorrImage,"./run/data/DRT240/DRT240_10000eV_010.img"),
    program(TransformImages,transform_images,_,_),
    has_in_port(TransformImages,InPort), 
    port_connects_to_channel(InPort,Channel), 
    resource_channel(Resource,Channel), 
    depends_on(CorrImage,Resource), 
-   uri_resource_var_value(Resource,cassette_id,
-                          CassetteId).
+   uri_resource_var_value(Resource,cassette_id, CassetteId).
 \end{verbatim}
 \end{scriptsize}
 For our example, the above query will yield the cassette id  \code{q55}.
