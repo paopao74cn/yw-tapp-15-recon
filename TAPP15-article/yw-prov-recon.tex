@@ -735,8 +735,8 @@ can be expressed as the Datalog query:
 \begin{scriptsize}
 \begin{verbatim}
 samples_used(SampleId) :- 
-   resource_metadata(collect_data_set, raw_image, _, 
-                     sample_id, SampleId).
+   resource_metadata(collect_data_set,raw_image,_, 
+                     sample_id,SampleId).
 \end{verbatim}
 \end{scriptsize}
 where \code{resource\_metadata} is a simple view expressed against the
@@ -744,15 +744,15 @@ provenance facts reconstructed by \yw\ to obtain the program, port
 name, and metadata information of resources:
 \begin{scriptsize}
 \begin{verbatim}
-resource_metadata(ProgramName, PortName, ResourceId, 
-                  VariableName, VariableValue) :-
-    program(ProgramId, ProgramName, _, _), 
-    has_port(ProgramId, PortId), 
-    port_name(PortId, PortName), 
-    channel(ChannelId, PortName),
-    resource_channel(ResourceId, ChannelId), 
-    uri_variable(VariableId, VariableName, PortId), 
-    uri_variable_value(ResourceId, VariableId, VariableValue). 
+resource_metadata(ProgramName,PortName,ResourceId, 
+                  VariableName,VariableValue) :-
+    program(ProgramId,ProgramName, _, _), 
+    has_port(ProgramId,PortId), 
+    port_name(PortId,PortName), 
+    channel(ChannelId,PortName),
+    resource_channel(ResourceId,ChannelId), 
+    uri_variable(VariableId,VariableName,PortId), 
+    uri_variable_value(ResourceId,VariableId,VariableValue). 
 \end{verbatim}
 \end{scriptsize}
 For our example, the above query will yield the answers \code{DRT240}
@@ -787,10 +787,10 @@ values. $Q_2$ can be expressed as the Datalog query:
 \begin{scriptsize}
 \begin{verbatim}
 energies_used(EnergyValue) :-
-    resource_metadata(collect_data_set, raw_image, ResourceId, 
-                      sample_id, "DRT322"),
-    resource_metadata(collect_data_set, raw_image, ResourceId, 
-                      energy, EnergyValue).
+    resource_metadata(collect_data_set,raw_image,ResourceId, 
+                      sample_id,"DRT322"),
+    resource_metadata(collect_data_set,raw_image,ResourceId, 
+                      energy,EnergyValue).
 \end{verbatim}
 \end{scriptsize}
 For our example, the above query will yield the answers \code{10000}
