@@ -2,7 +2,7 @@
 # @PARAM cassette_id  @PARAM accepted_sample @PARAM num_images @PARAM energies
 # @OUT sample_id @OUT energy @OUT frame_number
 # @OUT raw_image_path @AS raw_image 
-#   @URI file:run/raw/{cassette_id}/{sample_id}/e{energy}/image_{frame_number}.raw            
+# ... @URI file:run/raw/{cassette_id}/{sample_id}/e{energy}/image_{frame_number}.raw            
 run_log.write("Collecting data set for sample {0}".format(accepted_sample))
 sample_id = accepted_sample
 for energy, frame_number, intensity, raw_image_path in collect_next_image(
